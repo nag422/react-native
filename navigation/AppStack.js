@@ -10,6 +10,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddPostScreen from '../screens/AddPostScreen';
+import DrawerContent from '../screens/DrawerContent'
 
 import {createDrawerNavigator} from '@react-navigation/drawer'
 
@@ -19,10 +20,10 @@ const Drawer = createDrawerNavigator();
 
 
 const createDrawer = () => {
-    return (<Drawer.Navigator>
+    return (<Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
         <Drawer.Screen name="Home" component = {HomeScreen} />
         <Drawer.Screen name="Profile" component = {ProfileScreen} />               
-        <Drawer.Screen name="Chat" component = {ChatScreen} />  
+        
         
     </Drawer.Navigator>)
 }
@@ -39,6 +40,7 @@ const FeedStack = ({navigation}) => (
         //   fontFamily: 'Kufam-SemiBoldItalic',
           fontSize:18
         },
+        
         headerStyle: {
           shadowColor: '#fff',
           elevation: 0,
@@ -59,6 +61,7 @@ const FeedStack = ({navigation}) => (
     <Stack.Screen
       name="AddPost"
       component={AddPostScreen}
+      
       options={{
         title: '',
         headerTitleAlign: 'center',
@@ -73,6 +76,7 @@ const FeedStack = ({navigation}) => (
             <Ionicons name="arrow-back" size={25} color="#2e64e5" />
           </View>
         ),
+        
       }}
     />
 
@@ -130,7 +134,7 @@ const AppStack = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          // tabBarLabel: 'Home',
+          tabBarLabel: 'User Profile',
           tabBarIcon: ({color, size}) => (
             <Ionicons name="person-outline" color={color} size={size} />
           ),

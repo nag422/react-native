@@ -1,14 +1,17 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity, Button, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Button, StyleSheet, ActivityIndicator } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FormInput from '../components/FormInput'
 import { Card } from 'react-native-paper';
 import FormButton from '../components/FormButton';
 import { ScrollView } from 'react-native-gesture-handler';
 import SocialButton from '../components/SocialButton';
+import { AuthContext } from '../contexts/AuthContext';
 const Login = ({navigation}) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const [isloading, setIsloading] = React.useState(false)
+    const {login} = React.useContext(AuthContext)
     return (
         <ScrollView contentContainerStyle={styles.container}>
             
@@ -19,7 +22,7 @@ const Login = ({navigation}) => {
         style={styles.logo}
       />
       <Text style={styles.text}>Login</Text>
-
+      {isloading ? <ActivityIndicator size="large" color="#0000ff" />:null}
       <FormInput
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
@@ -40,7 +43,7 @@ const Login = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => login(email, password)}
+        onPress={() => login(email,password)}
       />
 
       <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
@@ -49,6 +52,7 @@ const Login = ({navigation}) => {
 
       {Platform.OS === 'android' ? (
         <View>
+          
           <SocialButton
             buttonTitle="Sign In with Facebook"
             btnType="facebook"

@@ -1,11 +1,50 @@
 import React from 'react'
 import Providers from './navigation/Index';
-import { Provider as PaperProvider } from 'react-native-paper';
+import {DefaultTheme} from '@react-navigation/native';
+import {  
+  DefaultTheme as PaperDefaultTheme,
+  Provider as PaperProvider
+} from 'react-native-paper';
+
+import { AuthContext } from './contexts/AuthContext';
+
+
+
+const theme = {
+  ...PaperDefaultTheme,
+  colors: {
+    ...PaperDefaultTheme.colors,
+    background: 'white',
+    primary: 'purple',
+    text: 'black',
+  },
+};
+
 const App = () => {
+
+  
+  const auth = React.useMemo(
+    () => ({
+      login:  async (email,password) => {
+        console.log(email,password)
+      },
+      logout: () => {
+        console.log('logout')
+      },
+      register:  () => {
+        console.log('register')
+      },
+    }),
+    [],
+  );
+
+
   return (
-    <PaperProvider>
-      <Providers />
-    </PaperProvider>
+    <AuthContext.Provider value={auth}>
+      <PaperProvider>
+        <Providers/>
+      </PaperProvider>
+    </AuthContext.Provider>
   )
 }
 

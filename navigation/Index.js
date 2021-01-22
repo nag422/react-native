@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import Routes from './Routes'
-const Providers = () => {
+const Providers = ({theme,...rest}) => {
     return (
-        <Routes />
+        <Routes theme={theme} />
     )
 }
 
