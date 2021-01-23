@@ -13,6 +13,12 @@ import AddPostScreen from '../screens/AddPostScreen';
 import DrawerContent from '../screens/DrawerContent'
 
 import {createDrawerNavigator} from '@react-navigation/drawer'
+import ArticlesScreen from '../screens/ArticlesScreen';
+import VideosScreen from '../screens/VideosScreen';
+import ToolsScreen from '../screens/ToolsScreen';
+import TrendScreen from './TrendScreen';
+import ExploreScreen from '../screens/ExploreScreen';
+import ContributeScreen from './ContributeScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -20,10 +26,11 @@ const Drawer = createDrawerNavigator();
 
 
 const createDrawer = () => {
-    return (<Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-        <Drawer.Screen name="Home" component = {HomeScreen} />
-        <Drawer.Screen name="Profile" component = {ProfileScreen} />               
+    return (<Drawer.Navigator initialRouteName="Articles" drawerContent={props => <DrawerContent {...props} />}>
+        <Drawer.Screen name="HomeDrawer" component = {FeedStack} />
+        {/* <Drawer.Screen name="Home" component = {ArticlesScreen} /> */}
         
+   
         
     </Drawer.Navigator>)
 }
@@ -31,8 +38,8 @@ const createDrawer = () => {
 const FeedStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      name="Digitalbox"
-      component={HomeScreen}
+      name="Articles"
+      component={ArticlesScreen}
       options={{
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -40,31 +47,56 @@ const FeedStack = ({navigation}) => (
         //   fontFamily: 'Kufam-SemiBoldItalic',
           fontSize:18
         },
-        
+        headerShown: false,
         headerStyle: {
           shadowColor: '#fff',
           elevation: 0,
         },
-        headerRight: () => (
-          <View style={{marginRight: 10}}>
-            <FontAwesome5.Button
-              name="plus"
-              size={22}
-              backgroundColor="#fff"
-              color="#2e64e5"
-              onPress={() => navigation.navigate('AddPost')}
-            />
-          </View>
-        ),
+        // headerRight: () => (
+        //   <View style={{marginRight: 10}}>
+        //     <FontAwesome5.Button
+        //       name="plus"
+        //       size={22}
+        //       backgroundColor="#fff"
+        //       color="#2e64e5"
+        //       onPress={() => navigation.navigate('AddPost')}
+        //     />
+        //   </View>
+        // ),
       }}
     />
     <Stack.Screen
-      name="AddPost"
-      component={AddPostScreen}
+      name="Videos"
+      component={VideosScreen}
       
       options={{
-        title: '',
+        title: 'Videos',
         headerTitleAlign: 'center',
+        headerShown: false,
+        headerStyle: {
+          backgroundColor: '#2e64e515',
+          shadowColor: '#2e64e515',
+          elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft:15}}>
+            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+          </View>
+        ),
+        
+      }}
+      
+    />
+
+<Stack.Screen
+      name="Tools"
+      component={ToolsScreen}
+      
+      options={{
+        title: 'Tools',
+        headerTitleAlign: 'center',
+        headerShown: false,
         headerStyle: {
           backgroundColor: '#2e64e515',
           shadowColor: '#2e64e515',
@@ -80,31 +112,26 @@ const FeedStack = ({navigation}) => (
       }}
     />
 
-    {/* <Stack.Screen
-        name="Feed"
-        children={createDrawer}
-        options={({ navigation }) => ({
-          title: "React Navigation",
-          headerLeft: () =>
-            <View>
-                feed text
-            </View>
-        })
-        }
-      /> */}
+    
+
+    
 
   </Stack.Navigator>
 );
 
 const AppStack = () => {
   return (
+    <>
+    
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: '#2e64e5',
       }}>
+
       <Tab.Screen
         name="Home"
-        component={FeedStack}
+        component={createDrawer}
+        
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
@@ -116,14 +143,43 @@ const AppStack = () => {
           ),
         }}
       />
+      
       <Tab.Screen
-        name="Messages"
-        component={ChatScreen}
+        name="Explore"
+        component={ExploreScreen}
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
             <Ionicons
-              name="chatbox-ellipses-outline"
+              name="grid-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Trend"
+        component={TrendScreen}
+        options={{
+          tabBarLabel: 'Trend',
+          tabBarIcon: ({color, size}) => (
+            <Ionicons
+              name="trending-up-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Contribute"
+        component={ContributeScreen}
+        options={{
+          // tabBarLabel: 'Home',
+          tabBarIcon: ({color, size}) => (
+            <Ionicons
+              name="add-circle-outline"
               color={color}
               size={size}
             />
@@ -140,17 +196,9 @@ const AppStack = () => {
           ),
         }}
       />
-       <Tab.Screen
-        name="Feed"
-        component={createDrawer}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="person-outline" color={color} size={size} />
-          ),
-        }}
-      />
+      
     </Tab.Navigator>
+    </>
   );
 }
 

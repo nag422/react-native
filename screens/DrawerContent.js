@@ -21,13 +21,102 @@ const DrawerContent = (props) => {
         <View style={{flex:1}}>
            <DrawerContentScrollView {...props}>
                <View style={styles.drawerContent}>
+                 
                    <View style={styles.userInfoSection}>
+                   <View style={{flexDirection:'row',marginTop:15}}>
                    <Avatar.Image size={60} source={{uri:'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png'}} />
-                   <View>
+                   <View style={{flexDirection:'column',marginLeft:15}}>
                        <Title style={styles.title}>Nagendra Kumar</Title>
                        <Caption style={styles.caption}>@nagendra(user)</Caption>
                    </View>
                    </View>
+
+                   <View style={styles.row}>
+                     <View style={styles.section}>
+                       <Paragraph style={[styles.paragraph,styles.caption]}>
+                         80
+                       </Paragraph>
+                       <Caption style={styles.caption}>Following
+                       </Caption>
+                     </View>
+
+                     <View style={styles.section}>
+                       <Paragraph style={[styles.paragraph,styles.caption]}>
+                         100
+                       </Paragraph>
+                       <Caption style={styles.caption}>Followers
+                       </Caption>
+                     </View>
+
+                   </View>
+                   </View>
+
+                   <Drawer.Section style={StyleSheet.drawerSection}>
+                      <DrawerItem 
+                      icon={({color,size}) => (
+                          <Icon 
+                              name="home-outline"
+                              color={color}
+                              size={size}
+                          />
+
+                          
+                      )}
+                      label="Home" 
+                      onPress={() => {}}
+                      />
+                       <DrawerItem 
+                      icon={({color,size}) => (
+                          <Icon 
+                              name="file-multiple-outline"
+                              color={color}
+                              size={size}
+                          />
+
+                          
+                      )}
+                      label="Articles" 
+                      onPress={() => {props.navigation.navigate('Articles')}}
+                      />
+                       <DrawerItem 
+                      icon={({color,size}) => (
+                          <Icon 
+                              name="video-outline"
+                              color={color}
+                              size={size}
+                          />
+
+                          
+                      )}
+                      label="Videos" 
+                      onPress={() => {props.navigation.navigate('Videos')}}
+                      />
+                       <DrawerItem 
+                      icon={({color,size}) => (
+                          <Icon 
+                              name="wrench-outline"
+                              color={color}
+                              size={size}
+                          />
+
+                          
+                      )}
+                      label="Tools" 
+                      onPress={() => {props.navigation.navigate('Tools')}}
+                      />
+           </Drawer.Section>
+           {/* For Future */}
+           {/* <Drawer.Section title="Settings">
+             <TouchableRipple onPress={()=>{}}>
+               <View style={styles.preference}>
+                 <Text>Dark Theme</Text>
+                 <View pointerEvents="none">
+                   <Switch value={''} />
+                 </View>
+               </View>
+             </TouchableRipple>
+           </Drawer.Section> */}
+           {/* For Future */}
                </View>
            </DrawerContentScrollView>
            <Drawer.Section style={StyleSheet.bottomDrawerSection}>

@@ -15,7 +15,7 @@ const theme = {
   colors: {
     ...PaperDefaultTheme.colors,
     background: 'white',
-    primary: 'purple',
+    primary: 'blue',
     text: 'black',
   },
 };
