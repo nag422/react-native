@@ -15,7 +15,7 @@ const theme = {
   colors: {
     ...PaperDefaultTheme.colors,
     background: 'white',
-    primary: 'blue',
+    primary: '#333396',
     text: 'black',
   },
 };
@@ -41,7 +41,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={auth}>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <Providers/>
       </PaperProvider>
     </AuthContext.Provider>

@@ -24,11 +24,12 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
+// import ToptabBarNavigator from '../navigation/ToptabBarNavigator'
 
 const createDrawer = () => {
     return (<Drawer.Navigator initialRouteName="Articles" drawerContent={props => <DrawerContent {...props} />}>
         <Drawer.Screen name="HomeDrawer" component = {FeedStack} />
-        {/* <Drawer.Screen name="Home" component = {ArticlesScreen} /> */}
+        {/* <Drawer.Screen name="Home" component = {ToptabBarNavigator} /> */}
         
    
         
@@ -111,6 +112,8 @@ const FeedStack = ({navigation}) => (
         
       }}
     />
+
+
 
     
 
@@ -196,6 +199,7 @@ const AppStack = () => {
           ),
         }}
       />
+      
       
     </Tab.Navigator>
     </>

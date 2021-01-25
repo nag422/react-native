@@ -2,8 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import {useRoute,useNavigation,DrawerActions  } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-const Drawer = createDrawerNavigator();
+
 const AppbarScreen = ({navigation,...rest}) => {
   const _goBack = () => navigation.goBack();
 
@@ -11,7 +10,7 @@ const AppbarScreen = ({navigation,...rest}) => {
 
   const route = useRoute();
   const profilenavigation = useNavigation();
-  const screenararys = ["Articles","Videos","Tools"];
+  
   
   
   const _handleMore = () => {
@@ -30,6 +29,7 @@ const AppbarScreen = ({navigation,...rest}) => {
       };
 
   return (
+    <>
     <Appbar.Header style={styles.header}>
         {route.name != "Articles" &&
       <Appbar.BackAction onPress={_goBack} />}
@@ -38,6 +38,8 @@ const AppbarScreen = ({navigation,...rest}) => {
       {route.name != "Articles" && route.name != "Videos" && route.name != "Tools"  ?
       <Appbar.Action icon="cog-outline" onPress={_handleMore} />:<Appbar.Action icon="view-headline" onPress={_handleMore1} />}
     </Appbar.Header>
+    
+    </>
   );
 };
 

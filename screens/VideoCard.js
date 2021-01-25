@@ -2,22 +2,29 @@ import * as React from 'react';
 import { View,FlatList,Text,StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from 'react-native-paper';
 import KeyTagScreen from './KeyTagScreen'
+
+
 const LeftContent = props => <Avatar.Icon {...props} icon="earth" />
 
 
 
 
-const ArticleCard = ({dataitem}) =>{ 
+const VideoCard = ({dataitem,sharescreen}) =>{ 
 
   
 
 
   return (
+    <>
   
     
+    
   <Card>
-    <Card.Cover source={{ uri: 'https://picsum.photos/300' }} />
-    <Card.Title title={dataitem.URL} left={LeftContent} />
+  {/* <YoutubePlayerScreen /> */}
+  {/* <WebView source={{ uri: 'https://www.youtube.com/watch?v=4_7YrLtbBVA' }} /> */}
+    {/* <Card.Cover source={{ uri: 'https://picsum.photos/300' }} /> */}
+    
+    <View onTouchEnd={()=>sharescreen(dataitem.URL)}><Card.Title title={dataitem.URL} left={LeftContent}/></View>
     <Card.Content>
       <Paragraph>{dataitem.title}</Paragraph>
       <Paragraph>{dataitem.time_elapsed}</Paragraph>
@@ -45,10 +52,11 @@ const ArticleCard = ({dataitem}) =>{
   </View>    
     </Card.Actions>
   </Card>
-  
-)};
+  </>
+)
+};
 
-export default ArticleCard;
+export default VideoCard;
 
 
 const styles = StyleSheet.create({

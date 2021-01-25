@@ -9,79 +9,61 @@ import BannerScreen from './BannerScreen';
 const DATAS = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+    URL:'business.twitter.com',
+    title: 'How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertisingHow video is reshaping digital advertising',
+    image:'',
+    keytags:['Digital','Marketing']
+    
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'business.twitter.com',
+    title: 'business.twitter.com',
+    image:'',
+    keytags:['Digital','Marketing']
+    
   },
   {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'business.twitter.com',
+    title: 'business.twitter.com',
+    image:'',
+    keytags:['Digital','Marketing']
+    
   },
   {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28',
-    title: 'First Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'business.twitter.com',
+    title: 'business.twitter.com',
+    image:'',
+    keytags:['Digital','Marketing']
+    
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fb1aa97f63',
-    title: 'Second Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'https://picsum.photos/300',
+    title: 'business.twitter.com',
+    image:'https://picsum.photos/300',
+    keytags:['Digital','Marketing']
+    
   },
   {
-    id: '58694a0f-3da1-471f-bd965571e29d72',
-    title: 'Third Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'https://picsum.photos/300',
+    title: 'business.twitter.com',
+    image:'https://picsum.photos/300',
+    keytags:['Digital','Marketing']
+    
   },
   {
-    id: 'bd7acbea-c1b1-46c2-d5-3ad53abb28ba',
-    title: 'First Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: '3ac68afc-c605-48d34f8-fbd91aa97f63',
-    title: 'Second Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: '58694a0f-3da1-471f-b6-145571e29d72',
-    title: 'Third Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: 'bd7acbea-c1b1-c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: '3ac68afc-605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: '58694a0f-3da1-41f-bd96-145571e29d72',
-    title: 'Third Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: 'bd7cbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: '3ac68ac-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-  },
-  {
-    id: '58694a0f-3d-471f-bd96-145571e29d72',
-    title: 'Third Item',
-    description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'https://picsum.photos/300',
+    title: 'business.twitter.com',
+    image:'https://picsum.photos/300',
+    keytags:['Digital','Marketing']
+    
   }
+  
 ];
 
 const Item = ({ title }) => (
@@ -97,9 +79,12 @@ const ITEM_SIZE = 500;
 const getItem = (data, index) => {
   
   return {
-    id: data[index]['id'],
+    id: index.toString(),
     title: data[index]['title'],
-    description:data[index]['description']
+    URL:data[index]['URL'],
+    image:data[index]['image'],
+    keytags:data[index]['keytags'],
+    time_elapsed:data[index]['time_elapsed']
   }
 }
 const wait = (timeout) => {
@@ -123,14 +108,20 @@ const ArticlesScreen = (props) => {
     console.log('loading more data');
     const dataresp = [
       {
-        id: Math.random().toString(12),
-        title: 'succcess load1',
-        description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        URL:'https://picsum.photos/300',
+        title: 'business.twitter.com',
+        image:'https://picsum.photos/300',
+        keytags:['Digital','Marketing']
+        
       },
       {
-        id: Math.random().toString(12),
-        title: 'success load2',
-        description:'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        URL:'https://picsum.photos/300',
+        title: 'business.twitter.com',
+        image:'https://picsum.photos/300',
+        keytags:['Digital','Marketing']
+        
       }
     ]
 
@@ -153,7 +144,7 @@ const ArticlesScreen = (props) => {
         return (<View>
 
                 <View style={{margin:5}} id={index}>
-                <ArticleCard item = {item} />
+                <ArticleCard dataitem = {item} />
                 </View>
           
           </View>)
