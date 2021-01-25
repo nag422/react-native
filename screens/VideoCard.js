@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View,FlatList,Text,StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from 'react-native-paper';
 import KeyTagScreen from './KeyTagScreen'
 
@@ -23,8 +24,8 @@ const VideoCard = ({dataitem,sharescreen}) =>{
   {/* <YoutubePlayerScreen /> */}
   {/* <WebView source={{ uri: 'https://www.youtube.com/watch?v=4_7YrLtbBVA' }} /> */}
     {/* <Card.Cover source={{ uri: 'https://picsum.photos/300' }} /> */}
-    
-    <View onTouchEnd={()=>sharescreen(dataitem.URL)}><Card.Title title={dataitem.URL} left={LeftContent}/></View>
+    <View onTouchEnd={()=>sharescreen(dataitem.URL)}><Card.Title title={dataitem.URL} left={LeftContent}/>
+    </View>
     <Card.Content>
       <Paragraph>{dataitem.title}</Paragraph>
       <Paragraph>{dataitem.time_elapsed}</Paragraph>

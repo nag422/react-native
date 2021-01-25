@@ -1,10 +1,12 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { SafeAreaView, Image, View, FlatList,Animated, StyleSheet, Text, StatusBar,VirtualizedList, RefreshControl } from 'react-native';
 
 
 import AppbarScreen from './AppbarScreen';
 import ArticleCard from './ArticleCard';
 import BannerScreen from './BannerScreen';
+import useArticleSearch from './useArticleSearch';
+
 
 const DATAS = [
   {
@@ -97,6 +99,23 @@ const ArticlesScreen = (props) => {
   const [data,setData] = React.useState(DATAS)
   const [refreshing, setRefreshing] = React.useState(false);
 
+  // Backend State
+  const [query, setQuery] = useState('')
+  const [pageNumber, setPageNumber] = useState(1)
+  const [orderby, setOrderby] = useState('newest')
+  const [errormsg, setErrormsg] = useState('')
+  // End Backend State
+
+
+  // Backend Article usesearch
+  const {
+    articles,
+    hasMore,
+    loading,
+    error    
+  } = useArticleSearch(query, pageNumber, orderby)
+  // End Backend Article usesearch
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setData([])
@@ -106,28 +125,8 @@ const ArticlesScreen = (props) => {
 
   const LoadMoreRandomData = () => {
     console.log('loading more data');
-    const dataresp = [
-      {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        URL:'https://picsum.photos/300',
-        title: 'business.twitter.com',
-        image:'https://picsum.photos/300',
-        keytags:['Digital','Marketing']
-        
-      },
-      {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        URL:'https://picsum.photos/300',
-        title: 'business.twitter.com',
-        image:'https://picsum.photos/300',
-        keytags:['Digital','Marketing']
-        
-      }
-    ]
+    setPageNumber(prevPageNumber => prevPageNumber + 1)
 
-    setData(prevData => {
-      return [...new Set([...prevData, ...dataresp])]
-  })
   }
   
   const getItemCount = (data) => {
@@ -135,16 +134,21 @@ const ArticlesScreen = (props) => {
     
     return data.length;
   }
-
+  const urlparser = (url) => {
+    var parser = new URL(url);
+    var newurl = parser.host;
+    return newurl;
+  }
   
 
-    const renderItem = ({ item,index}) => { 
+    const renderItem =  ({ item,index}) => { 
+     
       
       
         return (<View>
 
                 <View style={{margin:5}} id={index}>
-                <ArticleCard dataitem = {item} />
+                <ArticleCard dataitem = {item} dataurl={((item.URL).split('//')[1]).split('/')[0]} />
                 </View>
           
           </View>)
@@ -182,7 +186,7 @@ const ArticlesScreen = (props) => {
           /> */}
 
   <VirtualizedList
-        data={data}
+        data={articles}
         initialNumToRender={4}
         renderItem={renderItem}
         keyExtractor={item => item.id}

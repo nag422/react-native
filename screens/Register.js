@@ -57,7 +57,7 @@ const Register = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => login(email, password)}
+        onPress={() => register(email, password)}
       />
 
 

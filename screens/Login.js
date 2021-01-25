@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, Button, StyleSheet, ActivityIndicator } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import * as Animatable from 'react-native-animatable';
 import FormInput from '../components/FormInput'
 import { Card } from 'react-native-paper';
 import FormButton from '../components/FormButton';
@@ -12,17 +13,21 @@ const Login = ({navigation}) => {
     const [password, setPassword] = React.useState('')
     const [isloading, setIsloading] = React.useState(false)
     const {login} = React.useContext(AuthContext)
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             
       
     
-      <Image
+      <Animatable.Image
+        animation="bounceIn"
+        duraton="1500"
         source={require('../assets/imgs/digitalbox.png')}
         style={styles.logo}
       />
       <Text style={styles.text}>Login</Text>
       {isloading ? <ActivityIndicator size="large" color="#0000ff" />:null}
+      <Animatable.View animation="slideInLeft" duraton="1500">
       <FormInput
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
@@ -40,12 +45,13 @@ const Login = ({navigation}) => {
         iconType="lock"
         secureTextEntry={true}
       />
+      </Animatable.View>
 
       <FormButton
         buttonTitle="Sign In"
         onPress={() => login(email,password)}
       />
-
+    
       <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
         <Text style={styles.navButtonText}>Forgot Password?</Text>
       </TouchableOpacity>
@@ -118,4 +124,17 @@ const styles = StyleSheet.create({
       color: '#2e64e5',
     
     },
+    header: {
+      flex: 2,
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
+  footer: {
+      flex: 1,
+      backgroundColor: '#fff',
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      paddingVertical: 50,
+      paddingHorizontal: 30
+  }
   });

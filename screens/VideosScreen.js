@@ -6,6 +6,7 @@ import AppbarScreen from './AppbarScreen';
 import VideoCard from './VideoCard';
 import BannerScreen from './BannerScreen';
 import YoutubePlayerScreen from './YoutubePlayerScreen'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const DATAS = [
   {
@@ -101,6 +102,7 @@ const VideosScreen = (props) => {
   const [videourl,setVideourl] = React.useState('-QgJgZCJvo4')
  
   const sharescreen = (url) => {
+    
     setVideourl(url)
     setIsvideo(true)
   }
@@ -189,7 +191,7 @@ const VideosScreen = (props) => {
             
           /> */}
           <View>
-            {isvideo? <><Button color="#841584" title="X close" onPress={()=>setIsvideo(false)} /><YoutubePlayerScreen videourl={videourl} />
+            {isvideo? <><TouchableOpacity><Button color="#841584" title="X close" onPress={()=>setIsvideo(false)} /></TouchableOpacity><YoutubePlayerScreen videourl={videourl} />
           </>:null }
           
     </View>

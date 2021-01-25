@@ -1,14 +1,21 @@
 import * as React from 'react';
 import { View,FlatList,Text,StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from 'react-native-paper';
+import moment from 'moment';
 import KeyTagScreen from './KeyTagScreen'
 const LeftContent = props => <Avatar.Icon {...props} icon="earth" />
 
 
 
+const addDefaultSrc = (ev) => {
+  ev.target.src = 'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg'
+}
 
-const ArticleCard = ({dataitem}) =>{ 
 
+const ArticleCard = ({dataitem,dataurl}) =>{ 
+
+
+  
   
 
 
@@ -16,11 +23,11 @@ const ArticleCard = ({dataitem}) =>{
   
     
   <Card>
-    <Card.Cover source={{ uri: 'https://picsum.photos/300' }} />
-    <Card.Title title={dataitem.URL} left={LeftContent} />
+    <Card.Cover source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    <Card.Title title={dataurl} left={LeftContent} />
     <Card.Content>
       <Paragraph>{dataitem.title}</Paragraph>
-      <Paragraph>{dataitem.time_elapsed}</Paragraph>
+      {/* <Paragraph>{dataitem.time_elapsed}</Paragraph> */}
         <View style={{flex:1,flexDirection:'row',justifyContent:'flex-start'}}>
         <IconButton
     icon="tag-outline"
@@ -41,7 +48,9 @@ const ArticleCard = ({dataitem}) =>{
     size={15}
     onPress={() => console.log('Pressed')}
   />
-      <Text>{new Date().toDateString()}</Text>  
+       
+      <Text> {moment(dataitem.time_elapsed,'YYYY-MM-DD h:mm:ss').fromNow()} </Text>
+     
   </View>    
     </Card.Actions>
   </Card>

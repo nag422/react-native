@@ -110,10 +110,16 @@ export default AuthStack = () => {
       
         <Stack.Navigator>
         <Stack.Screen
-          name="Onboardingscreen"
+          name="Welcome"
           component={Onboardingscreen}
+          
+          
           option={{
-            headerTransparent: true
+            headerTransparent: true,
+            navigationOptions: {
+              headerShown: false
+            },
+            
           }}
         />
         
@@ -122,7 +128,8 @@ export default AuthStack = () => {
           name="Login"
           component={Login}
           option={{
-            headerTransparent: true
+            headerTransparent: true,
+            headerShown: false
           }}
         />
 
@@ -130,7 +137,8 @@ export default AuthStack = () => {
           name="Register"
           component={Register}
           option={{
-            headerTransparent: true
+            headerTransparent: true,
+            headerShown: false
           }}
         />
         </Stack.Navigator>

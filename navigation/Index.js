@@ -1,9 +1,21 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import Routes from './Routes'
-const Providers = ({theme,...rest}) => {
+import AuthStack from './AuthStack'
+import AppStack from './AppStack';
+import { NavigationContainer } from '@react-navigation/native'
+
+const Providers = ({theme,isaccesstokenset,...rest}) => {
+    
+    
+    
     return (
-        <Routes theme={theme} />
+        
+        <NavigationContainer>
+            
+            
+            {isaccesstokenset != null ? <AppStack /> : <AuthStack />}
+        
+        </NavigationContainer>
     )
 }
 

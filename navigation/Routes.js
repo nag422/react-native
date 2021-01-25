@@ -6,13 +6,20 @@ import AppStack from './AppStack';
 
 
 
-const Routes = () => {
-    const i = true;
+
+
+const Routes = ({access,...rest}) => {
+    
+
+   
+    
+    
+    
     return (
         <NavigationContainer>
             
             
-            {i ? <AppStack /> : <AuthStack />}
+            {access !== null ? <AppStack /> : <AuthStack />}
             
         </NavigationContainer>
     )
