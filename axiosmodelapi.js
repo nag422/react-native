@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
         }
         if(error.response.status === 401 &&
             originalRequest.url === baseURL + 'auth/jwt/refresh/'){
-                console.log('login')
+                console.log('login 401')
                 return Promise.reject(error);
             }
             if (
@@ -41,7 +41,7 @@ axiosInstance.interceptors.response.use(
     
                     // exp date in token is expressed in seconds, while now() returns milliseconds:
                     const now = Math.ceil(Date.now() / 1000);
-                    console.log(tokenParts.exp);
+                    console.log(tokenParts.exp,'token expire error');
     
                     if (tokenParts.exp > now) {
                         return axiosInstance

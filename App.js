@@ -30,7 +30,8 @@ const App = () => {
     isLoading:true,
     userName: null,
     userToken:null,
-    access:true,
+    access:null,
+    refresh:null,
     articles:[]
   }
 
@@ -45,8 +46,8 @@ const App = () => {
 
         };
       case 'LOGIN':
-        AsyncStorage.setItem('access',action.access)
-        AsyncStorage.setItem('refresh',action.refresh)
+        AsyncStorage.setItem('access',action.access.toString())
+        AsyncStorage.setItem('refresh',action.refresh.toString())
         return {
           ...prevState,
           access: action.access,
@@ -108,6 +109,7 @@ const App = () => {
   //         type: USER_LOADED_FAIL
   //     });
   // }
+
      dispatch({type:'isloadfial'})
     // console.log('useeffect')
     
@@ -135,7 +137,7 @@ const App = () => {
               console.log(res.data.access)
               console.log(res.data.refresh)
           
-            axiosInstance.defaults.headers['Authorization'] = 'JWT ' + AsyncStorage.getItem("access")
+            // axiosInstance.defaults.headers['Authorization'] = 'JWT ' + AsyncStorage.getItem("access")
             dispatch({type:'LOGIN',access:res.data.access,refresh:res.data.refresh})
           
             // saving error

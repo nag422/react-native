@@ -1,10 +1,13 @@
-import React from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import React,{useState,useEffect} from 'react';
+import {View,Image, TouchableOpacity, Text} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AppLoading from 'expo-app-loading'
+import { useFonts } from '@use-expo/font';
+import { Asset } from "expo-asset";
 
 import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
@@ -20,27 +23,166 @@ import TrendScreen from './TrendScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import ContributeScreen from './ContributeScreen';
 
+
+import BottomMaterialbar from '../navigation/BottomMaterialbar'
+
+
+// import Screens from "./navigation/Screens";
+import Login from "../screens/Login";
+import Onboardingscreen from "../screens/Onboarding";
+import Register from "../screens/Register";
+import AsyncStorage from '@react-native-community/async-storage';
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 // import ToptabBarNavigator from '../navigation/ToptabBarNavigator'
 
 const createDrawer = () => {
-    return (<Drawer.Navigator initialRouteName="Articles" drawerContent={props => <DrawerContent {...props} />}>
-        <Drawer.Screen name="HomeDrawer" component = {FeedStack} />
+    return (<Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
+       
         {/* <Drawer.Screen name="Home" component = {ToptabBarNavigator} /> */}
+        <Drawer.Screen name="Home" component = {BottomMaterialbar} />
+        <Drawer.Screen name="Explore" component = {ExploreScreen} />
+        <Drawer.Screen name="Trend" component = {TrendScreen} />
+        <Drawer.Screen name="Contribute" component = {ContributeScreen} />
+        <Drawer.Screen name="Profile" component = {ProfileScreen} />
+        <Drawer.Screen name="Articles" component = {ArticlesScreen} />
+        <Drawer.Screen name="Videos" component = {VideosScreen} />
+        <Drawer.Screen name="Tools" component = {ToolsScreen} />
+        <Drawer.Screen name="Bottom" component = {BottomMaterialbar} />
         
-   
+        
+        
         
     </Drawer.Navigator>)
 }
 
-const FeedStack = ({navigation}) => (
+
+
+// cache app images
+
+const assetImages = [
+  
+];
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === "string") {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
+
+
+
+const AppStack = ({isaccesstokenset,...rest}) => {
+  
+  
+
+  const [isLoadingComplete, setLoading] = useState(false);
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+
+  let [fontsLoaded] = useFonts({
+    'ArgonExtra': require('../assets/font/argon.ttf'),
+  });
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('alreadyLaunched').then((value) => {
+      if (value == null) {
+        AsyncStorage.setItem('alreadyLaunched', 'true'); // No need to wait for `setItem` to finish, although you might want to handle errors
+        setIsFirstLaunch(true);
+      } else {
+        setIsFirstLaunch(false);
+      }
+    }); // Add some error handling, also you can simply do setIsFirstLaunch(null) 
+    
+  
+  }, []);
+
+  // if (isFirstLaunch === null) {
+  //   return null; // This is the 'tricky' part: The query to AsyncStorage is not finished, but we have to present something to the user. Null will just render nothing, so you can also put a placeholder of some sort, but effectively the interval between the first mount and AsyncStorage retrieving your data won't be noticeable to the user. But if you want to display anything then you can use a LOADER here
+  // } else if (isFirstLaunch == true) {
+  //   routeName = 'Onboarding';
+  // } else {
+  //   routeName = 'Login';
+  // }
+
+  function _loadResourcesAsync() {
+    console.log('images loaded')
+    // return Promise.all([...cacheImages(assetImages)]);
+  }
+
+  function _handleLoadingError(error) {
+    // In this case, you might want to report the error to your error
+    // reporting service, for example Sentry
+    console.warn(error);
+  };
+
+ function _handleFinishLoading() {
+    setLoading(true);
+  };
+
+  if(!fontsLoaded && !isLoadingComplete) {
+    return (
+      <AppLoading
+        startAsync={_loadResourcesAsync}
+        onError={_handleLoadingError}
+        onFinish={_handleFinishLoading}
+      />
+    );
+  } else if(fontsLoaded) {
+
+return(
   <Stack.Navigator>
+
+
+{isaccesstokenset !==null ? 
+
+<>
+
+<Stack.Screen
+      name="Home"
+      component={createDrawer}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        //   fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize:18
+        },
+        headerShown: false,
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        
+      }}
+    />
+
+<Stack.Screen
+      name="Bottom"
+      component={BottomMaterialbar}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        //   fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize:18
+        },
+        headerShown: false,
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        
+      }}
+    />
+    
     <Stack.Screen
       name="Articles"
-      component={ArticlesScreen}
+      component={ToolsScreen}
       options={{
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -88,6 +230,7 @@ const FeedStack = ({navigation}) => (
         
       }}
       
+      
     />
 
 <Stack.Screen
@@ -115,95 +258,135 @@ const FeedStack = ({navigation}) => (
 
 
 
+</>
+:
+<>
+<Stack.Screen
+          name="Welcome"
+          component={Onboardingscreen}
+          
+          
+          option={{
+            headerTransparent: true,
+            navigationOptions: {
+              headerShown: false
+            },
+            
+          }}
+        />
+        
+
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          option={{
+            headerTransparent: true,
+            headerShown: false
+          }}
+        />
+
+      <Stack.Screen
+          name="Register"
+          component={Register}
+          option={{
+            headerTransparent: true,
+            headerShown: false
+          }}
+        />
+</>
+
+        }
     
 
     
 
   </Stack.Navigator>
-);
+)} else {
+  return null
+}};
 
-const AppStack = () => {
-  return (
-    <>
+// const FeedStack = ({isaccesstokenset,...rest}) => {
+//   return (
+//     <>
     
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: '#2e64e5',
-      }}>
+//     <Tab.Navigator
+//       tabBarOptions={{
+//         activeTintColor: '#2e64e5',
+//       }}>
 
-      <Tab.Screen
-        name="Home"
-        component={createDrawer}
+//       <Tab.Screen
+//         name="Home"
+//         component={createDrawer}
         
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons
-              name="home-outline"
-              color={color}
-              size={size}
-            />
-          ),
-        }}
-      />
+//         options={{
+//           tabBarLabel: 'Home',
+//           tabBarIcon: ({color, size}) => (
+//             <MaterialCommunityIcons
+//               name="home-outline"
+//               color={color}
+//               size={size}
+//             />
+//           ),
+//         }}
+//       />
       
-      <Tab.Screen
-        name="Explore"
-        component={ExploreScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <Ionicons
-              name="grid-outline"
-              color={color}
-              size={size}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Trend"
-        component={TrendScreen}
-        options={{
-          tabBarLabel: 'Trend',
-          tabBarIcon: ({color, size}) => (
-            <Ionicons
-              name="trending-up-outline"
-              color={color}
-              size={size}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Contribute"
-        component={ContributeScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <Ionicons
-              name="add-circle-outline"
-              color={color}
-              size={size}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: 'User Profile',
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="person-outline" color={color} size={size} />
-          ),
-        }}
-      />
+//       <Tab.Screen
+//         name="Explore"
+//         component={ExploreScreen}
+//         options={{
+//           // tabBarLabel: 'Home',
+//           tabBarIcon: ({color, size}) => (
+//             <Ionicons
+//               name="grid-outline"
+//               color={color}
+//               size={size}
+//             />
+//           ),
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Trend"
+//         component={TrendScreen}
+//         options={{
+//           tabBarLabel: 'Trend',
+//           tabBarIcon: ({color, size}) => (
+//             <Ionicons
+//               name="trending-up-outline"
+//               color={color}
+//               size={size}
+//             />
+//           ),
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Contribute"
+//         component={ContributeScreen}
+//         options={{
+//           // tabBarLabel: 'Home',
+//           tabBarIcon: ({color, size}) => (
+//             <Ionicons
+//               name="add-circle-outline"
+//               color={color}
+//               size={size}
+//             />
+//           ),
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Profile"
+//         component={ProfileScreen}
+//         options={{
+//           tabBarLabel: 'User Profile',
+//           tabBarIcon: ({color, size}) => (
+//             <Ionicons name="person-outline" color={color} size={size} />
+//           ),
+//         }}
+//       />
       
       
-    </Tab.Navigator>
-    </>
-  );
-}
+//     </Tab.Navigator>
+//     </>
+//   );
+// }
 
 export default AppStack;

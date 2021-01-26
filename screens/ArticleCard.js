@@ -3,7 +3,7 @@ import { View,FlatList,Text,StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from 'react-native-paper';
 import moment from 'moment';
 import KeyTagScreen from './KeyTagScreen'
-const LeftContent = props => <Avatar.Icon {...props} icon="earth" />
+const LeftContent = props => <Avatar.Icon {...props} icon="earth" size={35} style={{color:'gray',backgroundColor:'white'}} />
 
 
 

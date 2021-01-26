@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React,{useState,useEffect} from 'react'
 import { SafeAreaView, Image, View, FlatList,Animated, StyleSheet, Text, StatusBar,VirtualizedList, RefreshControl } from 'react-native';
 
@@ -95,6 +96,8 @@ const wait = (timeout) => {
   });
 }
 const ArticlesScreen = (props) => {
+
+  console.log('article screen',AsyncStorage.getItem('access'))
   
   const [data,setData] = React.useState(DATAS)
   const [refreshing, setRefreshing] = React.useState(false);

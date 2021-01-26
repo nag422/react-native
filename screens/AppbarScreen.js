@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import {useRoute,useNavigation,DrawerActions  } from '@react-navigation/native';
 
@@ -31,12 +31,14 @@ const AppbarScreen = ({navigation,...rest}) => {
   return (
     <>
     <Appbar.Header style={styles.header}>
+      
         {route.name != "Articles" &&
       <Appbar.BackAction onPress={_goBack} />}
       <Appbar.Content {...rest} />
       <Appbar.Action icon="magnify" onPress={_handleSearch} />
       {route.name != "Articles" && route.name != "Videos" && route.name != "Tools"  ?
       <Appbar.Action icon="cog-outline" onPress={_handleMore} />:<Appbar.Action icon="view-headline" onPress={_handleMore1} />}
+      
     </Appbar.Header>
     
     </>
@@ -47,6 +49,11 @@ export default AppbarScreen;
 
 const styles = StyleSheet.create({
     header: {
-      backgroundColor:'#fff'
+      // flex:1,
+      paddingTop:0,
+      alignItems:'center',
+      justifyContent:'space-between',
+      backgroundColor:'indigo',
+      height:50
     },
   });

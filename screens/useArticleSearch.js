@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React,{ useEffect, useState } from 'react'
 // import axiosInstance from '../axiosmodelapi'
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -9,16 +9,39 @@ export default function useArticleSearch(query, pageNumber, orderby) {
     const [error, setError] = useState(false)
     const [articles, setArticles] = useState([])
     const [hasMore, setHasMore] = useState(false)
+    const [usertoken,setUsertoken] = useState(null)
     
     useEffect(() => {
         setArticles([])
         pageNumber=1
     }, [query,orderby])
 
-    useEffect(() => {
-        // if(!localStorage.getItem('remain')) return;
+    React.useEffect(() => {
+        // Fetch the token from storage then navigate to our appropriate place
+        
+
+    
         setLoading(true)
         setError(false)
+
+        const bootstrapAsync = async () => {
+          let userToken;
+    
+          try {
+            userToken = await AsyncStorage.getItem('access');
+          } catch (e) {
+            // Restoring token failed
+          }
+          
+          await setUsertoken(userToken)
+    
+          
+        };
+    
+        bootstrapAsync();
+      
+
+
         let cancel
         axios({
             method: 'GET',
@@ -26,8 +49,8 @@ export default function useArticleSearch(query, pageNumber, orderby) {
             params: { q: query, page: pageNumber, orderby: orderby },
             headers:{
                 'Content-Type': 'application/json',
-                // 'Authorization': `JWT ${AsyncStorage.getItem('access')}`,         
-                'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjExNjA3Njk5LCJqdGkiOiI1NGU5N2NmOGFmOTE0MTgyOTVmNmEzZGY2MTE5NDMxNiIsInVzZXJfaWQiOjF9.liiOrQf2A0yeZ3Orn3yCR6iLTftRoBt7_Lqbzqr3wjI',
+                'Authorization': `JWT ${usertoken}`,         
+                // 'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjExNjcxNzAyLCJqdGkiOiI5NDczYzEzNWIxNzY0YzIxYjcwNTU5YjVkMmFkMGI5YiIsInVzZXJfaWQiOjF9.ltFOnkP6nqjmG1WnKopKSIS4ILIgnkAJH1AGAoxWKW0',
                 'Accept': 'application/json'
             },
             

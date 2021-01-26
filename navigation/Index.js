@@ -10,10 +10,9 @@ const Providers = ({theme,isaccesstokenset,...rest}) => {
     
     return (
         
-        <NavigationContainer>
+        <NavigationContainer>           
             
-            
-            {isaccesstokenset != null ? <AppStack /> : <AuthStack />}
+            <AppStack isaccesstokenset={isaccesstokenset} />
         
         </NavigationContainer>
     )
