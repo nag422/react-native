@@ -1,46 +1,239 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import React from 'react'
-import { View, Text,StyleSheet } from 'react-native'
-import AppbarScreen from './AppbarScreen'
-// import { WebView } from 'react-native-webview';
+import React,{useState,useEffect} from 'react'
+import { SafeAreaView, Image, View, FlatList,Animated, StyleSheet, Text, StatusBar,VirtualizedList, RefreshControl } from 'react-native';
+
+
+import AppbarScreen from './AppbarScreen';
+import ToolCard from './ToolCard';
+import BannerScreen from './BannerScreen';
+import useToolSearch from './useToolSearch';
+
+
+const DATAS = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'business.twitter.com',
+    title: 'How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertising How video is reshaping digital advertisingHow video is reshaping digital advertising',
+    image:'',
+    keytags:['Digital','Marketing']
+    
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'business.twitter.com',
+    title: 'business.twitter.com',
+    image:'',
+    keytags:['Digital','Marketing']
+    
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'business.twitter.com',
+    title: 'business.twitter.com',
+    image:'',
+    keytags:['Digital','Marketing']
+    
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'business.twitter.com',
+    title: 'business.twitter.com',
+    image:'',
+    keytags:['Digital','Marketing']
+    
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'https://picsum.photos/300',
+    title: 'business.twitter.com',
+    image:'https://picsum.photos/300',
+    keytags:['Digital','Marketing']
+    
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'https://picsum.photos/300',
+    title: 'business.twitter.com',
+    image:'https://picsum.photos/300',
+    keytags:['Digital','Marketing']
+    
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    URL:'https://picsum.photos/300',
+    title: 'business.twitter.com',
+    image:'https://picsum.photos/300',
+    keytags:['Digital','Marketing']
+    
+  }
+  
+];
+
+const Item = ({ title }) => (
+  <View style={styles.item}>
+    <Text style={styles.title}>{title}</Text>
+  </View>
+);
+const ITEM_SIZE = 500;
+
+
+
+
+const getItem = (data, index) => {
+  
+  return {
+    id: index.toString(),
+    title: data[index]['title'],
+    URL:data[index]['URL'],
+    image:data[index]['image'],
+    keytags:data[index]['keytags'],
+    time_elapsed:data[index]['time_elapsed']
+  }
+}
+const wait = (timeout) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
 const ToolsScreen = (props) => {
-    React.useEffect(() => {
-        // Fetch the token from storage then navigate to our appropriate place
-        const bootstrapAsync = async () => {
-          let userToken;
+
+  
+  
+  const [data,setData] = React.useState(DATAS)
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  // Backend State
+  const [query, setQuery] = useState('')
+  const [pageNumber, setPageNumber] = useState(1)
+  const [orderby, setOrderby] = useState('newest')
+  const [errormsg, setErrormsg] = useState('')
+  // End Backend State
+
+
+  // Backend Article usesearch
+  const {
+    tools,
+    hasMore,
+    loading,
+    error    
+  } = useToolSearch(query, pageNumber, orderby)
+  // End Backend Article usesearch
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setData([])
+
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  const LoadMoreRandomData = () => {
+    console.log('loading more data');
+    setPageNumber(prevPageNumber => prevPageNumber + 1)
+
+  }
+  
+  const getItemCount = (data) => {
     
-          try {
-            userToken = await AsyncStorage.getItem('access');
-          } catch (e) {
-            // Restoring token failed
-          }
     
-          // After restoring token, we may need to validate it in production apps
-    
-          // This will switch to the App screen or Auth screen and this loading
-          // screen will be unmounted and thrown away.
-        //   dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-         console.log('async',userToken)
-        };
-    
-        bootstrapAsync();
-      }, []);
-    
+    return data.length;
+  }
+  const urlparser = (url) => {
+    var parser = new URL(url);
+    var newurl = parser.host;
+    return newurl;
+  }
+  
+
+    const renderItem =  ({ item,index}) => { 
+     
+      
+      
+        return (<View>
+
+                <View style={{margin:5}} id={index}>
+                <ToolCard dataitem = {item} dataurl={((item.URL).split('//')[1]).split('/')[0]} />
+                </View>
+          
+          </View>)
+      };
+
+     
+     
+     
     return (
         <>
-        <AppbarScreen navigation={props.navigation} title="Tools" subtitle="Newest"/>
-       
-            {/* <WebView style={styles.container} source={{ uri: 'https://app.kiranvoleti.com/' }} onError={(e)=> alert(e.nativeEvent.description)}/> */}
+        <AppbarScreen navigation={props.navigation} title="Tools" subtitle="Newest" />
+        {/* <BannerScreen /> */}
+        {/* <Image
+        style={styles.absoluteFillobject}
+        
+        source={require('../assets/imgs/backgroundimage.png')}
+        
+      /> */}
+        
+          
+         
+         <SafeAreaView style={styles.container}>
+           
+            {/* <FlatList
+          // scrollEventThrottle={16}
+          showsVerticalScrollIndicator ={false}          
+         
+            bounces={true}
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            onEndReachedThreshold={0}
+            onEndReached={LoadMoreRandomData}
+            
+          /> */}
 
+  <VirtualizedList
+        data={tools}
+        initialNumToRender={4}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        getItemCount={getItemCount}
+        getItem={getItem}
+        horizontal={false}
+        onEndReachedThreshold={2}
+        onEndReached={LoadMoreRandomData}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+           
+           </SafeAreaView>
         
         </>
-    )
+      );
 }
 
 export default ToolsScreen
 
-// const styles = StyleSheet.create({
-//     container:{
-//         flex:1
-//     }
-// })
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding:10,
+      // marginTop: StatusBar.currentHeight || 0,
+    },
+    item: {
+      backgroundColor: '#f9c2ff',
+      padding: 20,
+      marginVertical: 8,
+      marginHorizontal: 16,
+    },
+    title: {
+      fontSize: 32,
+    },
+    absoluteFillobject: {
+      flex: 1,
+      position:'absolute',
+      top: 0,
+      width:'100%',
+      height:'100%',
+      
+      justifyContent: "center",
+      
+    },
+  });

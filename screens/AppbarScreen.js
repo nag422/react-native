@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import {useRoute,useNavigation,DrawerActions  } from '@react-navigation/native';
+import {useRoute,useNavigation,DrawerActions} from '@react-navigation/native';
 
 const AppbarScreen = ({navigation,...rest}) => {
   const _goBack = () => navigation.goBack();
@@ -21,9 +21,14 @@ const AppbarScreen = ({navigation,...rest}) => {
       
     };
     const _handleMore1 = () => {
-       
-          navigation.toggleDrawer()
-          console.log(route.name)
+          try{
+            navigation.toggleDrawer()
+          }catch(e){
+            profilenavigation.navigate('Articles')            
+            console.log(route.name)
+          }
+          
+          
         
         
       };
@@ -31,14 +36,16 @@ const AppbarScreen = ({navigation,...rest}) => {
   return (
     <>
     <Appbar.Header style={styles.header}>
-      
-        {route.name != "Articles" &&
-      <Appbar.BackAction onPress={_goBack} />}
+      <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:'6%',color:'white'}}>
+        {profilenavigation.canGoBack()  &&
+      <Appbar.BackAction color="white" onPress={_goBack} />}
       <Appbar.Content {...rest} />
-      <Appbar.Action icon="magnify" onPress={_handleSearch} />
-      {route.name != "Articles" && route.name != "Videos" && route.name != "Tools"  ?
-      <Appbar.Action icon="cog-outline" onPress={_handleMore} />:<Appbar.Action icon="view-headline" onPress={_handleMore1} />}
+      <Appbar.Action color="white" icon="magnify" onPress={_handleSearch} />
+      {route.name !== "Home"  &&
+      <Appbar.Action color="white" icon="view-headline" onPress={_handleMore1} />}
       
+      {/* <Appbar.Action icon="cog-outline" onPress={_handleMore} /> */}
+      </View>
     </Appbar.Header>
     
     </>
@@ -49,11 +56,10 @@ export default AppbarScreen;
 
 const styles = StyleSheet.create({
     header: {
-      // flex:1,
-      paddingTop:0,
-      alignItems:'center',
-      justifyContent:'space-between',
-      backgroundColor:'indigo',
-      height:50
+      position: 'relative',
+      left: 0,
+      right: 0,
+      top: 0,
+      height:30
     },
   });

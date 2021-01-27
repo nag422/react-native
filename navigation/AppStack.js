@@ -32,6 +32,9 @@ import Login from "../screens/Login";
 import Onboardingscreen from "../screens/Onboarding";
 import Register from "../screens/Register";
 import AsyncStorage from '@react-native-community/async-storage';
+
+
+
 const Stack = createStackNavigator();
 // const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -39,18 +42,16 @@ const Drawer = createDrawerNavigator();
 // import ToptabBarNavigator from '../navigation/ToptabBarNavigator'
 
 const createDrawer = () => {
-    return (<Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
+    return (<Drawer.Navigator  drawerContent={props => <DrawerContent {...props} />}>
        
-        {/* <Drawer.Screen name="Home" component = {ToptabBarNavigator} /> */}
+       
         <Drawer.Screen name="Home" component = {BottomMaterialbar} />
-        <Drawer.Screen name="Explore" component = {ExploreScreen} />
-        <Drawer.Screen name="Trend" component = {TrendScreen} />
-        <Drawer.Screen name="Contribute" component = {ContributeScreen} />
+        <Drawer.Screen name="Explore" component = {ExploreScreen} />        
         <Drawer.Screen name="Profile" component = {ProfileScreen} />
         <Drawer.Screen name="Articles" component = {ArticlesScreen} />
         <Drawer.Screen name="Videos" component = {VideosScreen} />
         <Drawer.Screen name="Tools" component = {ToolsScreen} />
-        <Drawer.Screen name="Bottom" component = {BottomMaterialbar} />
+        
         
         
         
@@ -85,7 +86,10 @@ const AppStack = ({isaccesstokenset,...rest}) => {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
 
   let [fontsLoaded] = useFonts({
-    'ArgonExtra': require('../assets/font/argon.ttf'),
+    'Raleway-Regular': require('../assets/font/Raleway-Regular.ttf'),
+    'Raleway-Black': require('../assets/font/Raleway-Black.ttf'),
+    'Raleway-Bold': require('../assets/font/Raleway-Bold.ttf'),
+    'Raleway-SemiBold': require('../assets/font/Raleway-SemiBold.ttf')
   });
 
   React.useEffect(() => {
@@ -135,7 +139,20 @@ const AppStack = ({isaccesstokenset,...rest}) => {
   } else if(fontsLoaded) {
 
 return(
-  <Stack.Navigator>
+  <Stack.Navigator
+
+  screenOptions={{
+    headerShown:false,
+    // headerStyle: {
+    //   backgroundColor: '#f4511e',
+    // },
+    // headerTintColor: '#fff',
+    // headerTitleStyle: {
+    //   fontWeight: 'bold',
+    // },
+  }}
+  
+  >
 
 
 {isaccesstokenset !==null ? 
@@ -153,15 +170,15 @@ return(
           fontSize:18
         },
         headerShown: false,
-        headerStyle: {
-          shadowColor: '#fff',
-          elevation: 0,
-        },
+        // headerStyle: {
+        //   shadowColor: '#fff',
+        //   elevation: 0,
+        // },
         
       }}
     />
 
-<Stack.Screen
+{/* <Stack.Screen
       name="Bottom"
       component={BottomMaterialbar}
       options={{
@@ -178,7 +195,7 @@ return(
         },
         
       }}
-    />
+    /> */}
     
     <Stack.Screen
       name="Articles"
@@ -221,6 +238,7 @@ return(
           shadowColor: '#2e64e515',
           elevation: 0,
         },
+        transitionConfig: () => fromLeft(),
         headerBackTitleVisible: false,
         headerBackImage: () => (
           <View style={{marginLeft:15}}>
@@ -267,6 +285,7 @@ return(
           
           
           option={{
+            headerShown: false,
             headerTransparent: true,
             navigationOptions: {
               headerShown: false
@@ -280,8 +299,9 @@ return(
           name="Login"
           component={Login}
           option={{
-            headerTransparent: true,
-            headerShown: false
+            headerShown: false,
+            headerTransparent: false,
+            
           }}
         />
 
@@ -314,7 +334,7 @@ return(
 //         activeTintColor: '#2e64e5',
 //       }}>
 
-//       <Tab.Screen
+//       {/* <Tab.Screen
 //         name="Home"
 //         component={createDrawer}
         
@@ -328,7 +348,7 @@ return(
 //             />
 //           ),
 //         }}
-//       />
+//       /> */}
       
 //       <Tab.Screen
 //         name="Explore"
@@ -344,7 +364,7 @@ return(
 //           ),
 //         }}
 //       />
-//       <Tab.Screen
+//       {/* <Tab.Screen
 //         name="Trend"
 //         component={TrendScreen}
 //         options={{
@@ -371,7 +391,7 @@ return(
 //             />
 //           ),
 //         }}
-//       />
+//       /> */}
 //       <Tab.Screen
 //         name="Profile"
 //         component={ProfileScreen}

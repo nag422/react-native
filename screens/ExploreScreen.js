@@ -70,9 +70,9 @@ const ExploreScreen = (props) => {
                     <View style={styles.innerupper}>
                         <View style={styles.brandtextcontainer}>
                             <View style={styles.brandtext}>
-                            <Text style={{color:'white'}}>Choose Category</Text>
+                            <Text style={{color:'white',fontSize:15,fontFamily:'Raleway-SemiBold'}}>Choose Category</Text>
                             <TouchableOpacity onPress={()=>console.log('fullscreenpressed')}>
-                                <Text style={{color:'white'}}>O</Text>
+                                <Text style={{color:'white',fontSize:15,fontFamily:'Raleway-SemiBold'}}>Articles</Text>
                             </TouchableOpacity>
 
                             </View>
@@ -114,11 +114,11 @@ const ExploreScreen = (props) => {
                     }}>
                         <View style={{marginTop:10,marginHorizontal:24}}>
                             <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                                <Text style={{color:'gray',fontSize:15}}>Today's Searches</Text>
+                                <Text style={{color:'gray',fontSize:15,fontFamily:'Raleway-Regular'}}>Today's Searches</Text>
                                 <TouchableOpacity
                                 onPress={() => {console.log('see all pressed')}}
                                 >
-                                    <Text style={{color:'gray',fontSize:15}}>See All {'>'}</Text>
+                                    <Text style={{color:'gray',fontSize:15,fontFamily:'Raleway-Regular'}}>See All {'>'}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -133,7 +133,7 @@ const ExploreScreen = (props) => {
 
                     {new Array(40).fill().map((e, i) =>
 
-                        <ChipScreen key={i} style={{padding:3,marginTop:3,marginHorizontal:1}} mode="outlined" />
+                        <ChipScreen key={i} textStyle="bold" style={{padding:3,marginTop:3,marginHorizontal:1,fontFamily:'Raleway-Black'}} mode="flat" />
                     )}
                 </View>
 

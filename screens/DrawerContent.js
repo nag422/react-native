@@ -66,7 +66,7 @@ const DrawerContent = (props) => {
                           
                       )}
                       label="Home" 
-                      onPress={() => {}}
+                      onPress={() => {props.navigation.navigate('Home')}}
                       />
                        <DrawerItem 
                       icon={({color,size}) => (
@@ -106,6 +106,19 @@ const DrawerContent = (props) => {
                       )}
                       label="Tools" 
                       onPress={() => {props.navigation.navigate('Tools')}}
+                      />
+                       <DrawerItem 
+                      icon={({color,size}) => (
+                          <Icon 
+                              name="wrench-outline"
+                              color={color}
+                              size={size}
+                          />
+
+                          
+                      )}
+                      label="Profile" 
+                      onPress={() => {props.navigation.navigate('Profile')}}
                       />
            </Drawer.Section>
            {/* For Future */}

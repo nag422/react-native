@@ -2,6 +2,7 @@ import React from 'react'
 import Providers from './navigation/Index';
 import {DefaultTheme} from '@react-navigation/native';
 import {  
+  configureFonts,
   DefaultTheme as PaperDefaultTheme,
   Provider as PaperProvider
 } from 'react-native-paper';
@@ -10,15 +11,73 @@ import { AuthContext } from './contexts/AuthContext';
 import axiosInstance from './axiosmodelapi'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View, Text } from 'react-native';
+const fontConfig = {
+  web: {
+    regular: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+  },
+  ios: {
+    regular: {
+      fontFamily: 'sans-serif',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'sans-serif-medium',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'sans-serif-light',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'sans-serif-thin',
+      fontWeight: 'normal',
+    },
+  },
+  android: {
+    regular: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'Raleway-Regular',
+      fontWeight: 'normal',
+    },
+  }
+};
 
 const theme = {
   ...PaperDefaultTheme,
+  fonts: configureFonts(fontConfig),
   colors: {
     ...PaperDefaultTheme.colors,
     background: 'white',
     primary: '#333396',
-    text: 'black',
-  },
+    text: 'black'    
+  }
+  
 };
 
 const App = () => {

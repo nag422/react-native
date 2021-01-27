@@ -2,8 +2,8 @@ import * as React from 'react';
 import { View,FlatList,Text,StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from 'react-native-paper';
 import moment from 'moment';
-import KeyTagScreen from './KeyTagScreen'
-const LeftContent = props => <Avatar.Icon {...props} icon="earth" size={35} style={{color:'gray',backgroundColor:'white'}} />
+// import KeyTagScreen from './KeyTagScreen'
+// const LeftContent = props => <Avatar.Icon {...props} icon="earth" size={35} style={{color:'gray',backgroundColor:'white'}} />
 
 
 
@@ -12,7 +12,7 @@ const addDefaultSrc = (ev) => {
 }
 
 
-const ArticleCard = ({dataitem,dataurl}) =>{ 
+const ToolCard = ({dataitem,dataurl}) =>{ 
 
 
   
@@ -75,7 +75,7 @@ const ArticleCard = ({dataitem,dataurl}) =>{
   
 )};
 
-export default ArticleCard;
+export default ToolCard;
 
 
 const styles = StyleSheet.create({

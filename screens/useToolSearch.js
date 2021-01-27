@@ -3,16 +3,34 @@ import React,{ useEffect, useState } from 'react'
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export default function useArticleSearch(query, pageNumber, orderby) {
+export default function useToolSearch(query, pageNumber, orderby) {
     
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const [articles, setArticles] = useState([])
+    const [tools, setTools] = useState([])
     const [hasMore, setHasMore] = useState(false)
     const [usertoken,setUsertoken] = useState('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjExNzU2NTU1LCJqdGkiOiIzMzVhYjM0NTBlMWI0ZjkzOTBkMDFjZWExOTQ4MWRlZCIsInVzZXJfaWQiOjF9.QcgvNqenoddAGPNP3TlrvQs7n7xmalpeEmA65Mt_2cY')
     
+useEffect(() => {
+    const bootstrapAsync = async () => {
+        let userToken;
+  
+        try {
+          userToken = await AsyncStorage.getItem('access');
+        } catch (e) {
+          // Restoring token failed
+        }
+        
+        await setUsertoken(userToken)
+  
+        
+      };
+  
+      bootstrapAsync();
+}, [])
+
     useEffect(() => {
-        setArticles([])
+        setTools([])
         pageNumber=1
     }, [query,orderby])
 
@@ -24,28 +42,14 @@ export default function useArticleSearch(query, pageNumber, orderby) {
         setLoading(true)
         setError(false)
 
-        const bootstrapAsync = async () => {
-          let userToken;
-    
-          try {
-            userToken = await AsyncStorage.getItem('access');
-          } catch (e) {
-            // Restoring token failed
-          }
-          
-          await setUsertoken(userToken)
-    
-          
-        };
-    
-        bootstrapAsync();
+        
       
 
 
         let cancel
         axios({
             method: 'GET',
-            url: 'https://app.kiranvoleti.com/user/articles_scroll_page/',
+            url: 'https://app.kiranvoleti.com/user/tools_scroll_page/',
             params: { q: query, page: pageNumber, orderby: orderby },
             headers:{
                 'Content-Type': 'application/json',
@@ -56,8 +60,8 @@ export default function useArticleSearch(query, pageNumber, orderby) {
             
             cancelToken: new axios.CancelToken(c => cancel = c)
         }).then(res => {
-            setArticles(prevArticles => {
-                return [...new Set([...prevArticles, ...res.data.response])]
+            setTools(prevTools => {
+                return [...new Set([...prevTools, ...res.data.response])]
             })
             setHasMore(res.data.response.length > 0)
             setLoading(false)
@@ -70,6 +74,6 @@ export default function useArticleSearch(query, pageNumber, orderby) {
         return () => cancel()
     }, [query, pageNumber,orderby])
 
-    return { loading, error, articles, hasMore }
+    return { loading, error, tools, hasMore }
 }
 

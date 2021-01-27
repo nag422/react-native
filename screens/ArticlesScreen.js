@@ -97,7 +97,7 @@ const wait = (timeout) => {
 }
 const ArticlesScreen = (props) => {
 
-  console.log('article screen',AsyncStorage.getItem('access'))
+  
   
   const [data,setData] = React.useState(DATAS)
   const [refreshing, setRefreshing] = React.useState(false);
