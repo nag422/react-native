@@ -7,10 +7,14 @@ import {
   Provider as PaperProvider
 } from 'react-native-paper';
 
+
+
 import { AuthContext } from './contexts/AuthContext';
+
 import axiosInstance from './axiosmodelapi'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View, Text } from 'react-native';
+import useArticleSearch from './screens/useArticleSearch';
 const fontConfig = {
   web: {
     regular: {
@@ -80,98 +84,33 @@ const theme = {
   
 };
 
+
+
 const App = () => {
   const [isLoading,setIsLoading] = React.useState(true);
-  // const [access,setAccess] = React.useState(null)
-
-
-  const initialLoginState = {
-    isLoading:true,
-    userName: null,
-    userToken:null,
-    access:null,
-    refresh:null,
-    articles:[]
-  }
-
-  loginReducer = (prevState,action) => {
-    switch(action.type) {
-      case 'RETRIEVE_TOKEN':
-        return {
-          ...prevState,
-          access: action.access,
-          refresh:action.refresh,
-          isLoading:false
-
-        };
-      case 'LOGIN':
-        AsyncStorage.setItem('access',action.access.toString())
-        AsyncStorage.setItem('refresh',action.refresh.toString())
-        return {
-          ...prevState,
-          access: action.access,
-          refresh:action.refresh,
-          isLoading:false
-
-        };
-      case 'REGISTER':
-        return {
-          ...prevState,
-          access: action.access,
-          refresh:action.refresh,
-          isLoading:false
-
-        };
-      case 'LOGOUT':
-        AsyncStorage.clear();
-        return {
-          ...prevState,    
-          access:null,     
-          isLoading:false
-
-        };
-      default:
-        return{
-          ...prevState,
-          isLoading:false
-        }
-    }
-  };
-
-  const [loginState, dispatch] = React.useReducer(loginReducer,initialLoginState)
+  const [pageNumber,setPageNumber] = React.useState(null);
+  const [isuserSignedin,setIsuserSignedin] = React.useState(false);
+  
+  
 
   React.useEffect(() => {
-  //   if (localStorage.getItem('access')) {
-  //     const config = {
-  //         headers: {
-  //             'Content-Type': 'application/json',
-  //             'Authorization': `JWT ${localStorage.getItem('access')}`,
-  //             'Accept': 'application/json'
-  //         }
-  //     };
 
-  //     try {
-  //         const res = axios.get(`${process_env_REACT_APP_API_URL}/auth/users/me/`, config);
-
-  //         dispatch({
-  //             type: USER_LOADED_SUCCESS,
-  //             payload: res.data
-  //         });
-  //     } catch (err) {
-
-  //         dispatch({
-  //             type: USER_LOADED_FAIL
-  //         });
-  //     }
-  // } else {
-  //     dispatch({
-  //         type: USER_LOADED_FAIL
-  //     });
-  // }
-
-     dispatch({type:'isloadfial'})
-    // console.log('useeffect')
+    const retrieveData = async() =>{
+    try{
+    const creds = await AsyncStorage.getItem('logindetails');
     
+    if (creds !== null && creds !== undefined){
+      const detail = JSON.parse(creds) 
+      login(detail.uname,detail.pwd)
+    }
+    
+  }catch(err){    
+    setIsLoading(false)    
+    console.log(err.message)
+    console.log('sync fails')
+  }
+    }
+  retrieveData()
     
   }, [])
 
@@ -179,65 +118,76 @@ const App = () => {
   
 
   const process_env_REACT_APP_API_URL= "https://app.kiranvoleti.com"
-  const authContext = React.useMemo(
-    () => ({
-      login:  async (email,password) => {
-        const config = {
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      };
+
+
   
-      const body = JSON.stringify({ email, password });
+
+
+  const login = async(email,password) => {
+
+    const body = JSON.stringify({ email, password });
   
       try { 
-          const res = await axiosInstance.post(`${process_env_REACT_APP_API_URL}/auth/jwt/create/`, body);
+          const res = await axiosInstance.post(`${process_env_REACT_APP_API_URL}/auth/jwt/create/`, body);         
               
-              console.log(res.data.access)
-              console.log(res.data.refresh)
+             
+          storeToken(JSON.stringify({access:res.data.access,refresh:res.data.refresh,uname:email,pwd:password}))
           
-            // axiosInstance.defaults.headers['Authorization'] = 'JWT ' + AsyncStorage.getItem("access")
-            dispatch({type:'LOGIN',access:res.data.access,refresh:res.data.refresh})
-          
-            // saving error
-            // await AsyncStorage.clear()
-           
-            
-
           
           
       } catch (err) {
-        // await AsyncStorage.clear()
-        console.log('console.error();')
-        console.log(e.message)
-        Promise.reject(e)
+        console.log(err.message)
+       console.log('login failed')
+       setIsLoading(false)    
+       
       }
-      
-      console.log('login')
-      },
-      logout: async () => {
-        
-        dispatch({type:'LOGOUT'})
-        setIsLoading(false)
-        console.log('logout')
 
-        // await AsyncStorage.clear()
-      },
-      register:  () => {
-        setAccess('fgk');
-        setIsLoading(false)
-        console.log('register')
-      },
-      getarticles:  () => {
-        setAccess('fgk');
-        setIsLoading(false)
-        console.log('register')
-      },
-    }),
-    [],
-  );
+  }
 
-  if(loginState.isLoading){
+  const signup = async (first_name, email, password, re_password) => {
+    if(first_name == null && email == null) return
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const provider='rest'
+    const body = JSON.stringify({ first_name, email,provider,password, re_password }); 
+   
+
+    try {
+        const res = await axiosInstance.post(`${process_env_REACT_APP_API_URL}/auth/users/`, body, config);
+        setIsLoading(false)  
+       
+    } catch (err) {
+      setIsLoading(false) 
+       
+    }
+};
+
+  const storeToken = async (body) => {  
+    
+    
+    await AsyncStorage.setItem('logindetails',body);
+    const parseditem = JSON.parse(body);
+    axiosInstance.defaults.headers['Authorization'] = 'JWT ' + parseditem.access;
+    await setIsuserSignedin(true)
+  }
+   
+  
+
+  const logout= async () => {
+    setIsLoading(false)
+       
+    // console.log('logout')
+
+    await AsyncStorage.clear()
+    setIsuserSignedin(false)
+  }
+
+ 
+
+  if(isLoading){
     return(
       <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
         <Text>
@@ -248,11 +198,14 @@ const App = () => {
     )
   }
   return (
-    <AuthContext.Provider value={authContext}>
-      <PaperProvider theme={theme}>
-        <Providers isaccesstokenset = {loginState.access} />
-      </PaperProvider>
+    <AuthContext.Provider value={{logout,login,signup}}>
+       
+        <PaperProvider theme={theme}>
+          <Providers isaccesstokenset = {isuserSignedin} />
+        </PaperProvider>
+     
     </AuthContext.Provider>
+    
   )
 }
 

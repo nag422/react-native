@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View,FlatList,Text,StyleSheet } from 'react-native';
+import { View,FlatList,Text,StyleSheet, Linking } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from 'react-native-paper';
 import moment from 'moment';
 import KeyTagScreen from './KeyTagScreen'
@@ -12,8 +12,7 @@ const addDefaultSrc = (ev) => {
 }
 
 
-const ArticleCard = ({dataitem,dataurl}) =>{ 
-
+const ArticleCard = ({dataitem,dataurl,statechanger,navigation}) =>{ 
 
   
   
@@ -23,7 +22,7 @@ const ArticleCard = ({dataitem,dataurl}) =>{
   
     
   <Card>
-    <Card.Cover source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    <Card.Cover onTouchEnd={() => navigation.navigate('webview',{url:dataitem.URL})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
     {/* <Card.Title style={{fontSize:15,fontFamily:'Raleway-Regular'}} title={dataurl} left={LeftContent} /> */}
     <View style={{flex:1}}>
     <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',top:8}}>
@@ -31,12 +30,12 @@ const ArticleCard = ({dataitem,dataurl}) =>{
         <Avatar.Icon icon="earth" size={30} style={{color:'gray',backgroundColor:'white'}} />           
       </View>
       <View>
-        <Text style={{fontSize:15,fontFamily:'Raleway-Regular',color:'gray'}}>{dataurl}</Text>
+        <Text onTouchEnd={() => navigation.navigate('webview',{url:dataitem.URL})} style={{fontSize:15,fontFamily:'Raleway-Regular',color:'gray'}}>{dataurl}</Text>
       </View>
     </View>
     <Card.Content>
       <View style={{flex:1,top:16}}>
-      <Paragraph style={{fontSize:20,fontFamily:'Raleway-SemiBold',lineHeight:25}}>{dataitem.title}</Paragraph>
+      <Paragraph onTouchEnd={() => navigation.navigate('webview',{url:dataitem.URL})} style={{fontSize:20,fontFamily:'Raleway-SemiBold',lineHeight:25}}>{dataitem.title}</Paragraph>
       {/* <Paragraph>{dataitem.time_elapsed}</Paragraph> */}
         <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',marginTop:10}}>
               <View>
@@ -49,7 +48,7 @@ const ArticleCard = ({dataitem,dataurl}) =>{
             </View>
 
             
-                {(dataitem.keytags).map((val,index)=> <Chip style={styles.tags} key={index} mode="flat">{val}</Chip>)}
+                {(dataitem.keytags).map((val,index)=> <Chip style={styles.tags} onPress={() => statechanger(val)} key={index} mode="flat">{val}</Chip>)}
             
       </View>
       </View>

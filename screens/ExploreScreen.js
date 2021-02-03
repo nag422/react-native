@@ -1,16 +1,54 @@
-import React from 'react'
-import { View, Text, StyleSheet,Dimensions,Image } from 'react-native'
+import React,{useState,useEffect} from 'react'
+import { View, Text, StyleSheet,Dimensions,Image,ActivityIndicator } from 'react-native'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import AppbarScreen from './AppbarScreen'
 import ChipScreen from './ChipScreen'
+import { Chip } from 'react-native-paper';
 // import ModalScreen from './ModalScreen'
-import BottomrawScreen from './BottomrawScreen'
-import InputScreen from './InputScreen'
+import axios from 'axios'
 const { width, height } = Dimensions.get("window");
+import { useNavigation } from '@react-navigation/native';
 
 
 
 const ExploreScreen = (props) => {
+
+    const [query, setQuery] = useState('')
+    const [category, setCategory] = useState('Articles')
+    const [orderby, setOrderby] = useState('newest')
+    const [keytags, setKeytags] = useState([])
+    const [loading,setLoading] =useState(false)
+    const [error,setError] =useState(false)
+
+   useEffect(() => {
+    let cancel
+    setLoading(true)
+    axios({
+        method: 'GET',
+        url: 'https://app.kiranvoleti.com/pkservice/',
+        headers:{
+            'Content-Type': 'application/json'
+            
+        }
+        
+        // cancelToken: new axios.CancelToken(c => cancel = c)
+    }).then(res => {
+        // res.data.response.map((e,i)=> console.log(e.tag));
+        setLoading(false)
+        setKeytags(res.data.response)
+    }).catch(e => {
+        setError(true)
+        setLoading(false)
+        
+        // if (axios.isCancel(e)) return
+        
+    })
+   }, [])
+
+    const navigation = useNavigation();
+    
+   
+
 
     const [newChips,setNewChips] = React.useState([
       {
@@ -29,11 +67,14 @@ const ExploreScreen = (props) => {
         image:'https://www.freeiconspng.com/uploads/tool-tools-working-workshop-wrench-icon--18.png'
       }
     ])
+
+
+
    
     const renderItem = ({ item }) => (
         <TouchableOpacity
+        onPress={()=>{setCategory(item.title)}}
             
-            onPress={()=>console.log('category pressed')}
             >
         
         <View style={styles.item}>
@@ -72,7 +113,7 @@ const ExploreScreen = (props) => {
                             <View style={styles.brandtext}>
                             <Text style={{color:'white',fontSize:15,fontFamily:'Raleway-SemiBold'}}>Choose Category</Text>
                             <TouchableOpacity onPress={()=>console.log('fullscreenpressed')}>
-                                <Text style={{color:'white',fontSize:15,fontFamily:'Raleway-SemiBold'}}>Articles</Text>
+                                <Text style={{color:'white',fontSize:15,fontFamily:'Raleway-SemiBold'}}>{category}</Text>
                             </TouchableOpacity>
 
                             </View>
@@ -114,11 +155,11 @@ const ExploreScreen = (props) => {
                     }}>
                         <View style={{marginTop:10,marginHorizontal:24}}>
                             <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                                <Text style={{color:'gray',fontSize:15,fontFamily:'Raleway-Regular'}}>Today's Searches</Text>
+                                <Text style={{color:'gray',fontSize:15,fontFamily:'Raleway-Regular'}}>Keywords</Text>
                                 <TouchableOpacity
-                                onPress={() => {console.log('see all pressed')}}
+                                onPress={() => navigation.navigate(category,{query:''})}
                                 >
-                                    <Text style={{color:'gray',fontSize:15,fontFamily:'Raleway-Regular'}}>See All {'>'}</Text>
+                                    <Text style={{color:'gray',fontSize:15,fontFamily:'Raleway-Regular'}}>See All  {'>'}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -131,10 +172,14 @@ const ExploreScreen = (props) => {
                 
                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'flex-start',flexWrap:'wrap',marginBottom:3}}>
 
-                    {new Array(40).fill().map((e, i) =>
-
-                        <ChipScreen key={i} textStyle="bold" style={{padding:3,marginTop:3,marginHorizontal:1,fontFamily:'Raleway-Black'}} mode="flat" />
-                    )}
+                    {/* {new Array(40).fill().map((e, i) =>{ */}
+                    {keytags.map((val, i) =>{
+                            
+                        // <ChipScreen key={i} onPress={()=>setQuery(e)} textStyle="bold" style={{padding:3,marginTop:3,marginHorizontal:1,fontFamily:'Raleway-Black'}} mode="flat" />
+                        return <Chip key={i} onPress={()=>navigation.navigate(category,{query:val.tag})} textStyle="bold" style={{padding:3,marginTop:3,marginHorizontal:1,fontFamily:'Raleway-Black'}} mode="flat">
+                       {val.tag}
+                               </Chip>
+    })}
                 </View>
 
             </ScrollView>
@@ -145,9 +190,12 @@ const ExploreScreen = (props) => {
                 </View>
                 
                 {/* <BottomMaterialbar /> */}
+                {loading && <ActivityIndicator size="large" color="#0000ff" />}
+        {error && <View style={{flex:1,alignItems:'center',justifyContent:'center'}}><Text>Somethig is Went Wrong</Text></View>}
         </View>
         
-       
+        
+        
         {/* <BottomrawScreen />  */}
         {/* <ModalScreen /> */}
 
@@ -171,7 +219,7 @@ const styles = StyleSheet.create({
 
     },
     upper:{
-        height:"30%",
+        height:"33%",
         backgroundColor:"#fff"
 
     },

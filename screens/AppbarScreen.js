@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import {useRoute,useNavigation,DrawerActions} from '@react-navigation/native';
 
-const AppbarScreen = ({navigation,...rest}) => {
+const AppbarScreen = ({navigation,searchcard,visibleform,...rest}) => {
   const _goBack = () => navigation.goBack();
 
   const _handleSearch = () => console.log('Searching');
@@ -37,10 +37,11 @@ const AppbarScreen = ({navigation,...rest}) => {
     <>
     <Appbar.Header style={styles.header}>
       <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:'6%',color:'white'}}>
-        {profilenavigation.canGoBack()  &&
+        {navigation.canGoBack()  &&
       <Appbar.BackAction color="white" onPress={_goBack} />}
       <Appbar.Content {...rest} />
-      <Appbar.Action color="white" icon="magnify" onPress={_handleSearch} />
+      {searchcard &&
+      <Appbar.Action color="white" icon={visibleform?'close':'magnify'} onPress={()=>searchcard()} />}
       {route.name !== "Home"  &&
       <Appbar.Action color="white" icon="view-headline" onPress={_handleMore1} />}
       

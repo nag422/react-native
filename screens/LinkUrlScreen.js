@@ -18,7 +18,7 @@ const LinkUrlScreen = ({ url, children }) => {
         Alert.alert(`Don't know how to open this URL: ${url}`);
         }
     }, [url]);
-    return <Button title={children} onPress={handlePress} />;
+    return <Text onPress={handlePress}>{children}</Text>;
 }
 
   

@@ -23,6 +23,7 @@ const YoutubePlayerScreen = ({videourl,...rest})=> {
         play={playing}
         videoId={videourl}
         onChangeState={onStateChange}
+        
       />
       {/* <Button title={playing ? "pause" : "play"} onPress={togglePlaying} /> */}
     </View>

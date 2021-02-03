@@ -6,10 +6,16 @@ import { Card } from 'react-native-paper';
 import FormButton from '../components/FormButton';
 import { ScrollView } from 'react-native-gesture-handler';
 import SocialButton from '../components/SocialButton';
+import { AuthContext } from '../contexts/AuthContext';
+
 const Register = ({navigation}) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const [re_password, setRe_password] = React.useState('')
     const [first_name,setFirst_name] = React.useState('')
+
+    const { signup } = React.useContext(AuthContext)
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             
@@ -31,6 +37,7 @@ const Register = ({navigation}) => {
       />
 
       <FormInput
+        require
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
@@ -48,16 +55,17 @@ const Register = ({navigation}) => {
         secureTextEntry={true}
       />
       <FormInput
-        labelValue={password}
-        onChangeText={(userPassword) => setPassword(userPassword)}
-        placeholderText="Password"
+        labelValue={re_password}
+        onChangeText={(userPassword) => setRe_password(userPassword)}
+        placeholderText="Re-Password"
         iconType="lock"
         secureTextEntry={true}
       />
-
+      <Text>{password.length > 6 ? password === re_password?'':'Two passwords should be matched':null}</Text>
       <FormButton
-        buttonTitle="Sign Up"
-        onPress={() => register(email, password)}
+        buttonTitle="Sign Up"   
+        disabled={password.length > 6 ? password === re_password?false:true:true}     
+        onPress={() => signup(email, password)}
       />
 
 

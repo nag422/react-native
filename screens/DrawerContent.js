@@ -110,7 +110,7 @@ const DrawerContent = (props) => {
                        <DrawerItem 
                       icon={({color,size}) => (
                           <Icon 
-                              name="wrench-outline"
+                              name="account"
                               color={color}
                               size={size}
                           />

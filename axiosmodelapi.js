@@ -11,6 +11,7 @@ const axiosInstance = axios.create({
         'Content-Type': 'application/json',
         accept: 'application/json'
     },
+    // cancelToken: new axios.CancelToken(c => cancel = c)
 });
 
 axiosInstance.interceptors.response.use(
@@ -19,13 +20,14 @@ axiosInstance.interceptors.response.use(
     },
     async function (error) {
         const originalRequest = error.config;
+        console.log('axiosinstancemeodel check',originalRequest)
 
         if(typeof error.response === 'undefined') {
             console.log('Network error');
             return Promise.reject(error);
         }
         if(error.response.status === 401 &&
-            originalRequest.url === baseURL + 'auth/jwt/refresh/'){
+            originalRequest.url === baseURL + '/auth/jwt/refresh/'){
                 console.log('login 401')
                 return Promise.reject(error);
             }

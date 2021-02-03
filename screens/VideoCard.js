@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { View,FlatList,Text,StyleSheet } from 'react-native';
+import { View,FlatList,Text,StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from 'react-native-paper';
-import KeyTagScreen from './KeyTagScreen'
 
+import moment from 'moment';
 
 const LeftContent = props => <Avatar.Icon {...props} icon="earth" />
 
 
 
 
-const VideoCard = ({dataitem,sharescreen}) =>{ 
+const VideoCard = (props) =>{ 
 
-  
-
+  const {dataitem,sharescreen,statechanger,navigation} = props
+  // const navigation = useNavigation();
 
   return (
     <>
@@ -21,37 +21,60 @@ const VideoCard = ({dataitem,sharescreen}) =>{
     
     
   <Card>
-  {/* <YoutubePlayerScreen /> */}
-  {/* <WebView source={{ uri: 'https://www.youtube.com/watch?v=4_7YrLtbBVA' }} /> */}
-    {/* <Card.Cover source={{ uri: 'https://picsum.photos/300' }} /> */}
-    <View onTouchEnd={()=>sharescreen(dataitem.URL)}><Card.Title title={dataitem.URL} left={LeftContent}/>
+    <Card.Cover source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    {/* <Card.Title style={{fontSize:15,fontFamily:'Raleway-Regular'}} title={dataurl} left={LeftContent} /> */}
+    <View style={{flex:1}}>
+    <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',top:8}}>
+      <View style={{marginLeft:6,top:2}}>
+        <Avatar.Icon icon="earth" size={30} style={{color:'gray',backgroundColor:'white'}} />           
+      </View>
+      <View>
+      
+        <Text style={{fontSize:15,fontFamily:'Raleway-Regular',color:'gray'}}>
+        <Text onTouchEnd={() => navigation.navigate('webview',{url:`https://www.youtube.com/channel/${dataitem.channelId}`})}>
+
+          {dataitem.channel_title.slice(0,20)}
+      </Text>
+      </Text>
+      </View>
     </View>
     <Card.Content>
-      <Paragraph>{dataitem.title}</Paragraph>
-      <Paragraph>{dataitem.time_elapsed}</Paragraph>
-        <View style={{flex:1,flexDirection:'row',justifyContent:'flex-start'}}>
-        <IconButton
-    icon="tag-outline"
-    color={Colors.gray100}
-    size={30}
-    onPress={() => console.log('Pressed')}
-  />
-     {(dataitem.keytags).map((val,index)=> <Chip style={styles.tags} key={index}>{val}</Chip>)}
-      </View>
+      <View style={{flex:1,top:16}}>
+      <Paragraph onTouchEnd={()=>sharescreen((dataitem.URL).split('?')[1].replace('v=',''))} style={{fontSize:20,fontFamily:'Raleway-SemiBold',lineHeight:25}}>{dataitem.title}</Paragraph>
+      {/* <Paragraph>{dataitem.time_elapsed}</Paragraph> */}
+        <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',marginTop:10}}>
+              <View>
+                      <IconButton
+                  icon="tag-outline"
+                  color='gray'
+                  size={20}
+                  onPress={() => console.log('Pressed')}
+                />
+            </View>
 
+            
+                {(dataitem.keytags).map((val,index)=> <Chip onPress={() => statechanger(val)} style={styles.tags} key={index}>{val}</Chip>)}
+            
+      </View>
+      </View>
     </Card.Content>
     
     <Card.Actions>
       <View style={styles.datestyle}>
+        <View style={{top:2}}>
       <IconButton
     icon="alarm"
-    color={Colors.gray100}
-    size={15}
-    onPress={() => console.log('Pressed')}
+    color='gray'
+    size={18}
+    
   />
-      <Text>{new Date().toDateString()}</Text>  
+       </View>
+       <View>
+      <Text style={{fontSize:15,fontFamily:'Raleway-Regular',color:'gray'}}> {moment(dataitem.time_elapsed,'YYYY-MM-DD h:mm:ss').fromNow()} </Text>
+      </View>
   </View>    
     </Card.Actions>
+    </View>
   </Card>
   </>
 )
@@ -75,7 +98,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   datestyle: {
-    display:'flex',
+    flex:1,
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'flex-start'
@@ -90,4 +113,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     
   },
+  
+  loginform: {
+    shadowOffset:{
+      width:0,
+      height:-2
+    },
+    shadowOpacity:0.1,
+    shadowRadius:2,
+    elevation:2
+  }
 });

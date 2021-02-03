@@ -20,16 +20,17 @@ const ProfileRoute = () => <ProfileScreen />;
 const BottomMaterialbar = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'Tools', title: 'Tools', icon: 'wrench-outline' },
+    
     { key: 'Articles', title: 'Articles', icon: 'file-multiple-outline' },
     { key: 'Videos', title: 'Videos', icon: 'video-outline' },
+    { key: 'Tools', title: 'Tools', icon: 'wrench-outline' },    
     { key: 'Explore', title: 'Explore', icon: 'view-grid-outline' },
     { key: 'Profile', title: 'Profile', icon: 'account' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    Tools: ToolsRoute,
     Articles: ArticlesRoute,
+    Tools: ToolsRoute,    
     Videos: VideosRoute,
     Explore: ExploreRoute,
     Profile: ProfileRoute

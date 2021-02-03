@@ -4,7 +4,8 @@ import { Avatar, Button, Card, Title, Paragraph,Chip,IconButton, Colors } from '
 import moment from 'moment';
 // import KeyTagScreen from './KeyTagScreen'
 // const LeftContent = props => <Avatar.Icon {...props} icon="earth" size={35} style={{color:'gray',backgroundColor:'white'}} />
-
+import { Linking } from 'react-native';
+import LinkUrlScreen from './LinkUrlScreen'
 
 
 const addDefaultSrc = (ev) => {
@@ -12,7 +13,7 @@ const addDefaultSrc = (ev) => {
 }
 
 
-const ToolCard = ({dataitem,dataurl}) =>{ 
+const ToolCard = ({dataitem,dataurl,statechanger,navigation}) =>{ 
 
 
   
@@ -23,10 +24,15 @@ const ToolCard = ({dataitem,dataurl}) =>{
   
     
   <Card>
-    <Card.Cover source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    
+    
+    <Card.Cover onPress={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    
+    
     {/* <Card.Title style={{fontSize:15,fontFamily:'Raleway-Regular'}} title={dataurl} left={LeftContent} /> */}
     <View style={{flex:1}}>
-    <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',top:8}}>
+    
+    <View onTouchEnd={()=>navigation.navigate('webview',{url:dataitem.URL})} style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',top:8}}>
       <View style={{marginLeft:6,top:2}}>
         <Avatar.Icon icon="earth" size={30} style={{color:'gray',backgroundColor:'white'}} />           
       </View>
@@ -34,10 +40,13 @@ const ToolCard = ({dataitem,dataurl}) =>{
         <Text style={{fontSize:15,fontFamily:'Raleway-Regular',color:'gray'}}>{dataurl}</Text>
       </View>
     </View>
+    {/* </LinkUrlScreen> */}
     <Card.Content>
       <View style={{flex:1,top:16}}>
-      <Paragraph style={{fontSize:20,fontFamily:'Raleway-SemiBold',lineHeight:25}}>{dataitem.title}</Paragraph>
-      {/* <Paragraph>{dataitem.time_elapsed}</Paragraph> */}
+      
+      
+      <Paragraph onTouchEnd={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`})} style={{fontSize:20,fontFamily:'Raleway-SemiBold',lineHeight:25}}>{dataitem.title.toString()}</Paragraph>
+      
         <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',marginTop:10}}>
               <View>
                       <IconButton
@@ -49,7 +58,7 @@ const ToolCard = ({dataitem,dataurl}) =>{
             </View>
 
             
-                {(dataitem.keytags).map((val,index)=> <Chip style={styles.tags} key={index} mode="flat">{val}</Chip>)}
+                {(dataitem.keytags).map((val,index)=> <Chip style={styles.tags} onPress={() => statechanger(val)} key={index}>{val}</Chip>)}
             
       </View>
       </View>
@@ -108,4 +117,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     
   },
+  
+  loginform: {
+    shadowOffset:{
+      width:0,
+      height:-2
+    },
+    shadowOpacity:0.1,
+    shadowRadius:2,
+    elevation:2
+  }
 });
