@@ -116,14 +116,14 @@ const AppStack = ({isaccesstokenset,...rest}) => {
   // }
 
   function _loadResourcesAsync() {
-    console.log('images loaded')
+    // console.log('images loaded')
     // return Promise.all([...cacheImages(assetImages)]);
   }
 
   function _handleLoadingError(error) {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
-    console.warn(error);
+    // console.warn(error);
   };
 
  function _handleFinishLoading() {
@@ -277,7 +277,7 @@ return(
     />
 
 
-<Stack.Screen
+{/* <Stack.Screen
       name="exploretrig"
       component={TrendScreen}
       
@@ -298,7 +298,7 @@ return(
         ),
         
       }}
-    />
+    /> */}
 
 <Stack.Screen
       name="webview"

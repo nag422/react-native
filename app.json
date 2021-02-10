@@ -17,12 +17,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kiranvoleti.digitalplus"
     },
     "android": {
       "package": "com.kiranvoleti.digitalplus",
       "versionCode": 1,
-      
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"

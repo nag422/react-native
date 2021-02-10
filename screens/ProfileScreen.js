@@ -2,10 +2,14 @@ import React,{ useCallback } from 'react'
 import { View, Text,StyleSheet,Button } from 'react-native'
 import AppbarScreen from './AppbarScreen'
 import { Avatar,Card, Title, Paragraph } from 'react-native-paper';
-import LinkUrlScreen from './LinkUrlScreen'
+import moment from 'moment';
 import { AuthContext } from '../contexts/AuthContext';
 const ProfileScreen = (props) => {
-    const { logout } = React.useContext(AuthContext)
+    const { logout,userdata } = React.useContext(AuthContext)
+   
+   
+
+    
     const LeftContent = props => <Avatar.Image size={60} source={{uri:'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png'}} {...props} />
     const LeftSecurityContent = props => <Avatar.Icon {...props} icon="account-lock-outline" />
     
@@ -15,14 +19,23 @@ const ProfileScreen = (props) => {
         <AppbarScreen navigation={props.navigation} title="Profile" />
                  
         <Card style={styles.container}>
-        <Card.Title title="Profile" subtitle="@nagendra (Admin)" left={LeftContent} />
+        <Card.Title title={userdata.first_name} subtitle={`@${userdata.first_name}(${userdata.usertype})`} left={LeftContent} />
             <Card.Content>           
             
-            <View style={styles.profileinfo}>                
-                <Text>First Name: nagendra</Text>
-                <Text>Last Name: Kumar</Text>
-                <Text>Phone No: 9832342436</Text>
-                <Text>Email: nagendrakumar422@gmail.com</Text>
+            <View style={styles.profileinfo}>    
+            <Text>FirstName: {userdata.first_name}</Text>    
+            <Text>LastName: {userdata.last_name}</Text>   
+            <Text>Email: {userdata.email}</Text>  
+            <Text>Phone: {userdata.phone}</Text>  
+            <Text>Joined: {userdata.joined}</Text>  
+            {/* {Object.entries(userdata).map(([key,val]) => {
+                return (<>
+                
+                <Text key={key}>{key}: {val}</Text>               
+               
+                </>)
+            })} */}
+                
                 
             </View>
             </Card.Content>            

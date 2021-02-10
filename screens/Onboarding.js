@@ -43,7 +43,7 @@ const Done = ({...props}) => (
         style={{marginHorizontal:10}}
         {...props}
     >
-        <Text style={{fontSize:16}}>Done</Text>
+        <Text style={{fontSize:16}}>Login</Text>
     </TouchableOpacity>
 );
 
@@ -60,21 +60,21 @@ const Onboardingscreen = ({navigation}) => {
           {
             backgroundColor: '#a6e4d0',
             image: <Image source={require('../assets/imgs/onboarding-img1.png')} />,
-            title: 'Connect to the World',
-            subtitle: 'A New Way To Connect With The World',
-          },
-          {
-            backgroundColor: '#fdeb93',
-            image: <Image source={require('../assets/imgs/onboarding-img2.png')} />,
-            title: 'Share Your Favorites',
-            subtitle: 'Share Your Thoughts With Similar Kind of People',
-          },
-          {
-            backgroundColor: '#e9bcbe',
-            image: <Image source={require('../assets/imgs/onboarding-img3.png')} />,
-            title: 'Become The Star',
-            subtitle: "Let The Spot Light Capture You",
-          },
+            title: 'Welcome to DigitalPlus',
+            subtitle: 'A New Way To Connect With The Digital World',
+          }
+        //   {
+        //     backgroundColor: '#fdeb93',
+        //     image: <Image source={require('../assets/imgs/onboarding-img2.png')} />,
+        //     title: 'Share Your Favorites',
+        //     subtitle: 'Share Your Thoughts With Similar Kind of People',
+        //   },
+        //   {
+        //     backgroundColor: '#e9bcbe',
+        //     image: <Image source={require('../assets/imgs/onboarding-img3.png')} />,
+        //     title: 'Become The Star',
+        //     subtitle: "Let The Spot Light Capture You",
+        //   },
         ]}
       />
     )

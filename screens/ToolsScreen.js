@@ -11,6 +11,7 @@ import {Card} from 'react-native-shadow-cards';
 import { TextInput } from 'react-native-gesture-handler';
 
 import {Picker} from '@react-native-picker/picker';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -23,7 +24,7 @@ const ITEM_SIZE = 500;
 const getItem = (data, index) => {
   
   return {
-    id: index.toString(),
+    id: data[index]['id'].toString(),
     title: data[index]['title'],
     URL:data[index]['URL'],
     image:data[index]['image'],
@@ -50,6 +51,7 @@ const ToolsScreen = (props) => {
   const [orderby, setOrderby] = useState('newest')
   const [errormsg, setErrormsg] = useState('')
   const [visibleform, setVisibleform] = useState(false)
+  // const [datatools,setDatatools] = useState([])
   // End Backend State
   React.useEffect(() => {
     if (route.params?.query) {
@@ -65,12 +67,26 @@ const ToolsScreen = (props) => {
     error    
   } = useToolSearch(query, pageNumber, orderby)
   // End Backend Article usesearch
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // Do something when the screen is focused
+  //     setDatatools(tools)
+
+  //     return () => {
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //       setDatatools([])
+  //     };
+  //   }, [tools])
+  // );
   
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setPageNumber(1)
+    setQuery('')
     wait(2000).then(() => setRefreshing(false));
-  }, []);
+  }, [query]);
   
 
   const LoadMoreRandomData = () => {

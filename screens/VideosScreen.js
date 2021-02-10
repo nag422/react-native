@@ -13,6 +13,7 @@ import {Card} from 'react-native-shadow-cards';
 import { TextInput } from 'react-native-gesture-handler';
 
 import {Picker} from '@react-native-picker/picker';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ITEM_SIZE = 500;
 
@@ -29,7 +30,8 @@ const getItem = (data, index) => {
     keytags:data[index]['keytags'],
     channel_title:data[index]['channel_title'],
     channelId:data[index]['channelId'],
-    time_elapsed:data[index]['time_elapsed']
+    time_elapsed:data[index]['time_elapsed'],
+    views:data[index]['views']
   }
 }
 const wait = (timeout) => {
@@ -52,6 +54,7 @@ const VideosScreen = (props) => {
   const [isvideo,setIsvideo] = React.useState(false)
   const [videourl,setVideourl] = React.useState('-QgJgZCJvo4')
   const [visibleform, setVisibleform] = useState(false)
+  // const [datavideos,setDatavideos] = useState([])
 
   // End Backend State
   const sharescreen = (url) => {    
@@ -71,13 +74,26 @@ const VideosScreen = (props) => {
   } = useVideoSearch(query, pageNumber, orderby)
   // End Backend Article usesearch
 
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // Do something when the screen is focused
+  //     setDatavideos(videos)
+
+  //     return () => {
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //       setDatavideos([])
+  //     };
+  //   }, [videos])
+  // );
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    
     setPageNumber(1)
+    setQuery('')    
     wait(2000).then(() => setRefreshing(false));
 
-  }, []);
+  }, [query]);
 
   const LoadMoreRandomData = () => {
     // console.log('loading more data');
@@ -93,7 +109,7 @@ const VideosScreen = (props) => {
     
     setQuery(val)
     
-    console.log(val)
+    
   }, [query]);
 
   React.useEffect(() => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity, Button, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Button, StyleSheet, ActivityIndicator,ToastAndroid } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import * as Animatable from 'react-native-animatable';
 import FormInput from '../components/FormInput'
@@ -15,8 +15,18 @@ import { AuthContext } from '../contexts/AuthContext';
 const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [isloading, setIsloading] = React.useState(false)
-  const { login } = React.useContext(AuthContext)
+  // const [isloading, setIsloading] = React.useState(true)
+  const [sociallogin,setSociallogin] = React.useState(false)
+  const { login,loginerror,isLoading } = React.useContext(AuthContext)
+  const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+  const showToast = React.useCallback(() => {
+    setSociallogin(true);
+    wait(1000).then(() => setSociallogin(false));
+  }, [sociallogin]);
 
   return (
     <>
@@ -35,7 +45,9 @@ const Login = ({ navigation }) => {
         style={styles.logo}
       />
       <Text style={styles.text}>Login</Text>
-      {isloading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+      {sociallogin && ToastAndroid.show('signIn/signUp with email login method !', ToastAndroid.SHORT)}
+      {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+      {loginerror && <Text style={{color:'red'}}>Invalid Credentials</Text>}
       <Animatable.View animation="slideInLeft" duraton="1500">
         
         <FormInput
@@ -69,8 +81,15 @@ const Login = ({ navigation }) => {
       <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
         <Text style={styles.navButtonText}>Forgot Password?</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.noaccountButton}
+        onPress={() => navigation.navigate('Register')}>
+        <Text style={styles.navButtonText}>
+          Don't have an acount? Create here
+        </Text>
+      </TouchableOpacity>
 
-      {Platform.OS === 'android' ? (
+      {/* {Platform.OS === 'android' ? (
         <View>
 
           <SocialButton
@@ -78,7 +97,7 @@ const Login = ({ navigation }) => {
             btnType="facebook"
             color="#4867aa"
             backgroundColor="#e6eaf4"
-            onPress={() => fbLogin()}
+            onPress={showToast}
           />
 
           <SocialButton
@@ -86,20 +105,14 @@ const Login = ({ navigation }) => {
             btnType="google"
             color="#de4d41"
             backgroundColor="#f5e7ea"
-            onPress={() => googleLogin()}
+            onPress={showToast}
             
           />
          
         </View>
-      ) : null}
+      ) : null} */}
 
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.navButtonText}>
-          Don't have an acount? Create here
-        </Text>
-      </TouchableOpacity>
+     
 
     </ScrollView>
     </View>
@@ -134,7 +147,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   forgotButton: {
-    marginVertical: 55,
+    marginVertical: 25,
+  },
+  noaccountButton: {
+    marginVertical: 1,
   },
   navButtonText: {
     fontSize: 18,

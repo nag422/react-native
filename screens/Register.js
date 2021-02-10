@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity, Button, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Button, StyleSheet,ToastAndroid } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FormInput from '../components/FormInput'
 import { Card } from 'react-native-paper';
@@ -14,7 +14,13 @@ const Register = ({navigation}) => {
     const [re_password, setRe_password] = React.useState('')
     const [first_name,setFirst_name] = React.useState('')
 
-    const { signup } = React.useContext(AuthContext)
+    const { signup,signuperror,signupsuccess } = React.useContext(AuthContext)
+
+
+   
+   
+    
+
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -26,7 +32,8 @@ const Register = ({navigation}) => {
         style={styles.logo}
       />
       <Text style={styles.text}>Create Account</Text>
-
+      {signuperror&& <Text style={{color:'red'}}>Check User Credentials</Text>}
+      {signupsuccess&& <Text style={{color:'green'}}>Success please check your email and verify then login to your account!</Text>}
       <FormInput
         labelValue={first_name}
         onChangeText={(first_name) => setFirst_name(first_name)}
@@ -65,7 +72,7 @@ const Register = ({navigation}) => {
       <FormButton
         buttonTitle="Sign Up"   
         disabled={password.length > 6 ? password === re_password?false:true:true}     
-        onPress={() => signup(email, password)}
+        onPress={() => signup(first_name, email, password, re_password)}
       />
 
 
@@ -84,13 +91,10 @@ const Register = ({navigation}) => {
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity>
+     
+      
 
-
-
-      {Platform.OS === 'android' ? (
+      {/* {Platform.OS === 'android' ? (
         <View>
           <SocialButton
             buttonTitle="Sign Up with Facebook"
@@ -108,7 +112,7 @@ const Register = ({navigation}) => {
             onPress={() => googleLogin()}
           />
         </View>
-      ) : null}
+      ) : null} */}
 
       <TouchableOpacity
         style={styles.forgotButton}

@@ -26,7 +26,7 @@ const ToolCard = ({dataitem,dataurl,statechanger,navigation}) =>{
   <Card>
     
     
-    <Card.Cover onPress={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    <Card.Cover onTouchEnd={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`,screenurl:dataitem.URL})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
     
     
     {/* <Card.Title style={{fontSize:15,fontFamily:'Raleway-Regular'}} title={dataurl} left={LeftContent} /> */}
@@ -45,7 +45,7 @@ const ToolCard = ({dataitem,dataurl,statechanger,navigation}) =>{
       <View style={{flex:1,top:16}}>
       
       
-      <Paragraph onTouchEnd={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`})} style={{fontSize:20,fontFamily:'Raleway-SemiBold',lineHeight:25}}>{dataitem.title.toString()}</Paragraph>
+      <Paragraph onTouchEnd={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`,screenurl:dataitem.URL})} style={{fontSize:20,fontFamily:'Raleway-SemiBold',lineHeight:25}}>{dataitem.title.toString()}</Paragraph>
       
         <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',marginTop:10}}>
               <View>

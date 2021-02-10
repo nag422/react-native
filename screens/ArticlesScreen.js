@@ -10,6 +10,7 @@ import WebviewScreen from './WebviewScreen';
 import useArticleSearch from './useArticleSearch';
 import {Card} from 'react-native-shadow-cards';
 import { TextInput } from 'react-native-gesture-handler';
+import { useFocusEffect } from '@react-navigation/native';
 const ITEM_SIZE = 500;
 
 
@@ -45,6 +46,7 @@ const ArticlesScreen = (props) => {
   const [orderby, setOrderby] = useState('newest')
   const [errormsg, setErrormsg] = useState('')
   const [visibleform, setVisibleform] = useState(false)
+  // const [datarticles,setDatarticles] = useState([])
   // End Backend State
  
 
@@ -54,12 +56,26 @@ const ArticlesScreen = (props) => {
     }
   }, [route.params?.query]);
 
+  
+
   // React.useEffect(() => {
   //   if (route.params?.orderby) {
   //     console.log('order effect')
   //     setOrderby(route.params.orderby)
   //   }
   // }, [route.params?.orderby]);
+
+
+  // React.useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     // do something
+  //     console.log('focus')
+  //   });
+
+  //   return unsubscribe;
+  // }, [navigation]);
+
+  
 
 
   // Backend Article usesearch
@@ -70,26 +86,37 @@ const ArticlesScreen = (props) => {
     error    
   } = useArticleSearch(query, pageNumber, orderby)
   // End Backend Article usesearch
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // Do something when the screen is focused
+  //     setDatarticles(articles)
 
+  //     return () => {
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //       setDatarticles([])
+  //     };
+  //   }, [articles])
+  // );
   
 
   const statechanger = React.useCallback((val) => {
     
     setQuery(val)
     
-    console.log(val)
+    
   }, [query]);
 
   const orderchanger = React.useCallback((val) => {
     
     setOrderby(val)
     
-    console.log(val)
+    
   }, [orderby]);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    
+    setPageNumber(1)
     setQuery('')
     wait(2000).then(() => setRefreshing(false));
   }, [query]);
@@ -103,7 +130,7 @@ const ArticlesScreen = (props) => {
  
   const searchcard = React.useCallback(() => {
     setVisibleform(!visibleform)
-    console.log(visibleform)
+    
     
   }, [visibleform]);
 
