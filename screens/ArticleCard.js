@@ -22,7 +22,7 @@ const ArticleCard = ({dataitem,dataurl,statechanger,navigation}) =>{
   
     
   <Card>
-    <Card.Cover onTouchEnd={() => navigation.navigate('webview',{url:dataitem.URL})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    <Card.Cover onTouchEnd={() => navigation.navigate('webview',{url:dataitem.URL})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfoundmobile.jpg' }} />
     {/* <Card.Title style={{fontSize:15,fontFamily:'Raleway-Regular'}} title={dataurl} left={LeftContent} /> */}
     <View style={{flex:1}}>
     <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',top:8}}>

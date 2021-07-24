@@ -1,10 +1,11 @@
 import axios from "axios"; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const baseURL = "https://app.kiranvoleti.com";
 
 const axiosInstance = axios.create({
     baseURL:baseURL,
-    timeout: 5000,
+    // timeout: 5000,
     headers: {
         Authorization: AsyncStorage.getItem('access')
         ? 'JWT ' + AsyncStorage.getItem('access'):null,
@@ -20,37 +21,39 @@ axiosInstance.interceptors.response.use(
     },
     async function (error) {
         const originalRequest = error.config;
-        console.log('axiosinstancemeodel check',originalRequest)
+        
 
         if(typeof error.response === 'undefined') {
             console.log('Network error');
+            // window.location.replace('/login')
+            // alert('Network error')
             return Promise.reject(error);
         }
-        if(error.response.status === 401 &&
-            originalRequest.url === baseURL + '/auth/jwt/refresh/'){
-                console.log('login 401')
-                return Promise.reject(error);
-            }
+        // if(error.response.status === 401){
+        //         alert('login 401')
+        //         // window.location.replace('/login')
+        //         return Promise.reject(error);
+        //     }
             if (
-                error.response.data.code === 'token_not_valid' &&
-                error.response.status === 401 &&
-                error.response.statusText === 'Unauthorized'
+                error.response.data.code === 'token_not_valid' ||
+                error.response.status === 401
+                //  && error.response.statusText === 'Unauthorized'
             ) {
 
-                const refreshToken = AsyncStorage.getItem('refresh_token');
-                if (refreshToken) {
-                    const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
+                const refreshToken = AsyncStorage.getItem('refresh');
+                if (refreshToken !== 'undefined') {
+                    // const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
     
                     // exp date in token is expressed in seconds, while now() returns milliseconds:
-                    const now = Math.ceil(Date.now() / 1000);
-                    console.log(tokenParts.exp,'token expire error');
+                    // const now = Math.ceil(Date.now() / 1000);
+                    // console.log(tokenParts.exp,'token expire error');
     
-                    if (tokenParts.exp > now) {
+                    if (refreshToken) {
                         return axiosInstance
                             .post('/auth/jwt/refresh/', { refresh: refreshToken })
                             .then((response) => {
-                                AsyncStorage.setItem('access_token', response.data.access);
-                                AsyncStorage.setItem('refresh_token', response.data.refresh);
+                                AsyncStorage.setItem('access', response.data.access);
+                                AsyncStorage.setItem('refresh', response.data.refresh);
     
                                 axiosInstance.defaults.headers['Authorization'] =
                                     'JWT ' + response.data.access;
@@ -61,14 +64,15 @@ axiosInstance.interceptors.response.use(
                             })
                             .catch((err) => {
                                 console.log(err);
+                                
                             });
                     } else {
-                        console.log('Refresh token is expired', tokenParts.exp, now);
-                        console.log('/login/');
+                        console.log('Refresh token is expired');
+                        
                     }
                 } else {
-                    console.log('Refresh token not available.');
-                    console.log('/login/');
+                    console.log('Refresh token not available.');                    
+                    
                 }
 
 

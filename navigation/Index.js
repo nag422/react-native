@@ -1,10 +1,8 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import AuthStack from './AuthStack'
 import AppStack from './AppStack';
 import { NavigationContainer } from '@react-navigation/native'
 
-const Providers = ({theme,isaccesstokenset,...rest}) => {
+const Providers = ({theme,...rest}) => {
     
     
     
@@ -12,7 +10,7 @@ const Providers = ({theme,isaccesstokenset,...rest}) => {
         
         <NavigationContainer>           
             
-            <AppStack isaccesstokenset={isaccesstokenset} />
+            <AppStack />
         
         </NavigationContainer>
     )

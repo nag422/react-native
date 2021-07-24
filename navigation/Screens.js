@@ -16,20 +16,20 @@ const { width } = Dimensions.get("screen");
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-export default function OnboardingStack(props) {
-    return (
-      <Stack.Navigator mode="card" headerMode="none">
-        <Stack.Screen
-          name="Onboarding"
-          component={Onboarding}
-          option={{
-            headerTransparent: true
-          }}
-        />
-        <Stack.Screen name="App" component={AppStack} />
-      </Stack.Navigator>
-    );
-  }
+// export default function OnboardingStack(props) {
+//     return (
+//       <Stack.Navigator mode="card" headerMode="none">
+//         <Stack.Screen
+//           name="Onboarding"
+//           component={Onboarding}
+//           option={{
+//             headerTransparent: true
+//           }}
+//         />
+//         <Stack.Screen name="App" component={AppStack} />
+//       </Stack.Navigator>
+//     );
+//   }
 
   export function LoginStack(props) {
     return (

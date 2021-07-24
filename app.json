@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "webpack-reactnative",
-    "slug": "webpack-reactnative",
-    "version": "1.0.0",
+    "name": "DigitalUpgrade",
+    "slug": "digital-upgrade",
+    "sdkVersion": "41.0.0",
+    "version": "4.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -18,10 +19,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kiranvoleti.digitalplus"
+      "bundleIdentifier": "com.kiranvoleti.digitalupgrade"
     },
     "android": {
-      "package": "com.kiranvoleti.digitalplus",
+      "package": "com.kiranvoleti.digitalupgrade",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
@@ -29,7 +30,8 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     }
+    
   }
 }

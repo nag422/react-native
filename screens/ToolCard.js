@@ -26,7 +26,7 @@ const ToolCard = ({dataitem,dataurl,statechanger,navigation}) =>{
   <Card>
     
     
-    <Card.Cover onTouchEnd={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`,screenurl:dataitem.URL})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfound.jpg' }} />
+    <Card.Cover onTouchEnd={() => navigation.navigate('webview',{url:`https://app.kiranvoleti.com/view_website/${dataitem.id}/${dataitem.category.toLowerCase()}`,screenurl:dataitem.URL})} source={{ uri: dataitem.image?dataitem.image:'https://app.kiranvoleti.com/static/assets/images/imagenotfoundmobile.jpg' }} />
     
     
     {/* <Card.Title style={{fontSize:15,fontFamily:'Raleway-Regular'}} title={dataurl} left={LeftContent} /> */}

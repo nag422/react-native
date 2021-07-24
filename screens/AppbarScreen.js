@@ -11,18 +11,19 @@ const AppbarScreen = ({navigation,searchcard,visibleform,...rest}) => {
   const _handleSearch = () => console.log('Searching');
 
   const route = useRoute();
+  
   const profilenavigation = useNavigation();
   const _goBack = () => {
     try{
       if(navigation.canGoBack()){
         navigation.goBack()
       }else{
-        navigation.navigate('Articles')
+        navigation.navigate('Explore')
         // console.log(navigation.canGoBack())
       }
       
     }catch(e){
-      navigation.navigate('Articles')
+      navigation.navigate('Explore')
     }
   
     
@@ -30,30 +31,30 @@ const AppbarScreen = ({navigation,searchcard,visibleform,...rest}) => {
   
   
   
-  const _handleMore = () => {
+  // const _handleMore = () => {
       
         
-        profilenavigation.navigate('Videos');
+  //       profilenavigation.navigate('Videos');
         
       
-    };
-    const _handleMore1 = () => {
+  //   };
+  //   const _handleMore1 = () => {
           
-            profilenavigation.navigate('Articles')            
+  //           profilenavigation.navigate('Articles')            
             
           
           
           
         
         
-      };
+  //     };
 
   return (
     <>
     <Appbar.Header style={styles.header}>
-      <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:'6%',color:'white'}}>
+      <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'space-between',color:'white'}}>
         
-        {navigation.canGoBack() ?
+        {navigation.canGoBack() && route.name!="Explore" ?
       <Appbar.BackAction color="white" onPress={_goBack} />: null}
       {profilenavigation.canGoBack() ? 
       <Appbar.Content {...rest} onPress={_goBack} />: <Appbar.Content {...rest} />
@@ -64,8 +65,8 @@ const AppbarScreen = ({navigation,searchcard,visibleform,...rest}) => {
       <Appbar.Action color="white" icon={visibleform?'close':'magnify'} onPress={()=>searchcard()} />}
       
       {/* <Appbar.Action color="white" icon="view-headline" onPress={_handleMore1} /> */}
-      {route.name !== "Home"  &&
-      <Appbar.Action icon="cog-outline" onPress={_handleMore1} />}
+      {/* {route.name !== "Home"  &&
+      <Appbar.Action icon="cog-outline" onPress={_handleMore1} />} */}
       </View>
     </Appbar.Header>
     
@@ -80,7 +81,8 @@ const styles = StyleSheet.create({
       position: 'relative',
       left: 0,
       right: 0,
-      top: 0,
-      height:30
+      // top: 0,
+      height:50,
+      backgroundColor:"rgba(3, 13, 81, 0.9)"
     },
   });

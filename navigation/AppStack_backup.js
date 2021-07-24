@@ -1,32 +1,33 @@
-import React, { useState, useContext } from "react";
-import { View, Image } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import AppLoading from "expo-app-loading";
-import { useFonts } from "@use-expo/font";
+import React, { useState, useContext } from 'react';
+import { View, Image } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AppLoading from 'expo-app-loading'
+import { useFonts } from '@use-expo/font';
 import { Asset } from "expo-asset";
 
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileScreen from '../screens/ProfileScreen';
 
-import ArticlesScreen from "../screens/ArticlesScreen";
-import VideosScreen from "../screens/VideosScreen";
-import ToolsScreen from "../screens/ToolsScreen";
-import TrendScreen from "./TrendScreen";
-import ExploreScreen from "../screens/ExploreScreen";
-import WebviewScreen from "../screens/WebviewScreen";
 
-import { AuthContext } from "../contexts/AuthContext";
+import ArticlesScreen from '../screens/ArticlesScreen';
+import VideosScreen from '../screens/VideosScreen';
+import ToolsScreen from '../screens/ToolsScreen';
+import ExploreScreen from '../screens/ExploreScreen';
+import WebviewScreen from '../screens/WebviewScreen'
+
+
+import { AuthContext } from '../contexts/AuthContext';
 
 // import Screens from "./navigation/Screens";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
-import PaymentScreen from "../screens/PaymentScreen";
-import LoadingScreen from "../screens/LoadingScreen";
+import AsyncStorage from '@react-native-community/async-storage';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
+
 
 const Stack = createStackNavigator();
 // const Tab = createBottomTabNavigator();
@@ -37,21 +38,30 @@ const Stack = createStackNavigator();
 // const createDrawer = () => {
 //     return (<Drawer.Navigator  drawerContent={props => <DrawerContent {...props} />}>
 
+
 //         <Drawer.Screen name="Home" component = {BottomMaterialbar} />
-//         <Drawer.Screen name="Explore" component = {ExploreScreen} />
+//         <Drawer.Screen name="Explore" component = {ExploreScreen} />        
 //         <Drawer.Screen name="Profile" component = {ProfileScreen} />
 //         <Drawer.Screen name="Articles" component = {ArticlesScreen} />
 //         <Drawer.Screen name="Videos" component = {VideosScreen} />
 //         <Drawer.Screen name="Tools" component = {ToolsScreen} />
 
+
+
+
+
 //     </Drawer.Navigator>)
 // }
 
+
+
 // cache app images
 
-const assetImages = [];
+const assetImages = [
+
+];
 function cacheImages(images) {
-  return images.map((image) => {
+  return images.map(image => {
     if (typeof image === "string") {
       return Image.prefetch(image);
     } else {
@@ -60,21 +70,44 @@ function cacheImages(images) {
   });
 }
 
-const AppStack = (props) => {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
-  const { isuserSignedin } = useContext(AuthContext);
-  // const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+
+
+const AppStack = ({ isaccesstokenset, ...rest }) => {
+
+
+
+  const [isLoadingComplete, setLoading] = useState(false);
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+
+
 
   let [fontsLoaded] = useFonts({
-    "Raleway-Regular": require("../assets/font/Raleway-Regular.ttf"),
-    "Raleway-Black": require("../assets/font/Raleway-Black.ttf"),
-    "Raleway-Bold": require("../assets/font/Raleway-Bold.ttf"),
-    "Raleway-SemiBold": require("../assets/font/Raleway-SemiBold.ttf"),
+    'Raleway-Regular': require('../assets/font/Raleway-Regular.ttf'),
+    'Raleway-Black': require('../assets/font/Raleway-Black.ttf'),
+    'Raleway-Bold': require('../assets/font/Raleway-Bold.ttf'),
+    'Raleway-SemiBold': require('../assets/font/Raleway-SemiBold.ttf')
   });
 
-  
+  React.useEffect(() => {
+    AsyncStorage.getItem('alreadyLaunched').then((value) => {
+      if (value == null) {
+        AsyncStorage.setItem('alreadyLaunched', 'true'); // No need to wait for `setItem` to finish, although you might want to handle errors
+        setIsFirstLaunch(true);
+      } else {
+        setIsFirstLaunch(false);
+      }
+    }); // Add some error handling, also you can simply do setIsFirstLaunch(null) 
 
- 
+
+  }, []);
+
+  // if (isFirstLaunch === null) {
+  //   return null; // This is the 'tricky' part: The query to AsyncStorage is not finished, but we have to present something to the user. Null will just render nothing, so you can also put a placeholder of some sort, but effectively the interval between the first mount and AsyncStorage retrieving your data won't be noticeable to the user. But if you want to display anything then you can use a LOADER here
+  // } else if (isFirstLaunch == true) {
+  //   routeName = 'Onboarding';
+  // } else {
+  //   routeName = 'Login';
+  // }
 
   function _loadResourcesAsync() {
     // console.log('images loaded')
@@ -85,11 +118,11 @@ const AppStack = (props) => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     // console.warn(error);
-  }
+  };
 
   function _handleFinishLoading() {
-    setLoadingComplete(true);
-  }
+    setLoading(true);
+  };
 
   if (!fontsLoaded && !isLoadingComplete) {
     return (
@@ -100,35 +133,63 @@ const AppStack = (props) => {
       />
     );
   } else if (fontsLoaded) {
+
     return (
       <Stack.Navigator
+
         screenOptions={{
           headerShown: false,
-         
+          // headerStyle: {
+          //   backgroundColor: '#f4511e',
+          // },
+          // headerTintColor: '#fff',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
         }}
+
       >
-        {isuserSignedin ? (
+
+
+        {isaccesstokenset ?
+
           <>
-            
+
+            {/* <Stack.Screen
+      name="Home"
+      component={createDrawer}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        //   fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize:18
+        },
+        headerShown: false,
+        // headerStyle: {
+        //   shadowColor: '#fff',
+        //   elevation: 0,
+        // },
+        
+      }}
+    /> */}
 
             <Stack.Screen
               name="Home"
               component={FeedStack}
               options={{
-                title: ' ',
-                headerTitleAlign: "left",
+                headerTitleAlign: 'center',
                 headerTitleStyle: {
-                  color: "#2e64e5",
+                  color: '#2e64e5',
                   //   fontFamily: 'Kufam-SemiBoldItalic',
-                  fontSize: 8,
+                  fontSize: 18
                 },
-                headerShown: true,
+                headerShown: false,
                 headerStyle: {
-                  backgroundColor:'#fff',
-                  shadowColor: "#fff",
-                  elevation: 5,
-                  height:30
+                  shadowColor: '#fff',
+                  elevation: 0,
                 },
+
               }}
             />
 
@@ -136,15 +197,15 @@ const AppStack = (props) => {
               name="Articles"
               component={ArticlesScreen}
               options={{
-                headerTitleAlign: "center",
+                headerTitleAlign: 'center',
                 headerTitleStyle: {
-                  color: "#2e64e5",
+                  color: '#2e64e5',
                   //   fontFamily: 'Kufam-SemiBoldItalic',
-                  fontSize: 18,
+                  fontSize: 18
                 },
                 headerShown: false,
                 headerStyle: {
-                  shadowColor: "#fff",
+                  shadowColor: '#fff',
                   elevation: 0,
                 },
                 // headerRight: () => (
@@ -163,13 +224,14 @@ const AppStack = (props) => {
             <Stack.Screen
               name="Videos"
               component={VideosScreen}
+
               options={{
-                title: "Videos",
-                headerTitleAlign: "center",
+                title: 'Videos',
+                headerTitleAlign: 'center',
                 headerShown: false,
                 headerStyle: {
-                  backgroundColor: "#2e64e515",
-                  shadowColor: "#2e64e515",
+                  backgroundColor: '#2e64e515',
+                  shadowColor: '#2e64e515',
                   elevation: 0,
                 },
                 transitionConfig: () => fromLeft(),
@@ -179,19 +241,23 @@ const AppStack = (props) => {
                     <Ionicons name="arrow-back" size={25} color="#2e64e5" />
                   </View>
                 ),
+
               }}
+
+
             />
 
             <Stack.Screen
               name="Tools"
               component={ToolsScreen}
+
               options={{
-                title: "Tools",
-                headerTitleAlign: "center",
+                title: 'Tools',
+                headerTitleAlign: 'center',
                 headerShown: false,
                 headerStyle: {
-                  backgroundColor: "#2e64e515",
-                  shadowColor: "#2e64e515",
+                  backgroundColor: '#2e64e515',
+                  shadowColor: '#2e64e515',
                   elevation: 0,
                 },
                 headerBackTitleVisible: false,
@@ -200,8 +266,10 @@ const AppStack = (props) => {
                     <Ionicons name="arrow-back" size={25} color="#2e64e5" />
                   </View>
                 ),
+
               }}
             />
+
 
             {/* <Stack.Screen
       name="exploretrig"
@@ -229,15 +297,15 @@ const AppStack = (props) => {
             <Stack.Screen
               name="webview"
               component={WebviewScreen}
+
               options={{
-                title: " ",
-                headerTitleAlign: "center",
-                headerShown: true,
+                title: 'webview',
+                headerTitleAlign: 'center',
+                headerShown: false,
                 headerStyle: {
-                  backgroundColor: "#2e64e515",
-                  shadowColor: "#2e64e515",
+                  backgroundColor: '#2e64e515',
+                  shadowColor: '#2e64e515',
                   elevation: 0,
-                  height:30
                 },
                 // headerBackTitleVisible: false,
                 headerBackImage: () => (
@@ -245,12 +313,30 @@ const AppStack = (props) => {
                     <Ionicons name="arrow-back" size={25} color="#2e64e5" />
                   </View>
                 ),
+
               }}
             />
+
+
+
           </>
-        ) : (
+          :
           <>
-           
+            {/* <Stack.Screen
+          name="Welcome"
+          component={Onboardingscreen}
+          
+          
+          option={{
+            headerShown: false,
+            headerTransparent: true,
+            navigationOptions: {
+              headerShown: false
+            },
+            
+          }}
+        /> */}
+
 
             <Stack.Screen
               name="Login"
@@ -258,6 +344,7 @@ const AppStack = (props) => {
               option={{
                 headerShown: false,
                 headerTransparent: false,
+
               }}
             />
 
@@ -266,18 +353,20 @@ const AppStack = (props) => {
               component={Register}
               option={{
                 headerTransparent: true,
-                headerShown: false,
+                headerShown: false
               }}
             />
-
-
-
           </>
-        )}
+
+        }
+
+
+
+
       </Stack.Navigator>
-    );
+    )
   } else {
-    return null;
+    return null
   }
 };
 
@@ -286,17 +375,19 @@ const FeedStack = ({ isaccesstokenset, ...rest }) => {
 
   return (
     <>
+
       <Tab.Navigator
         tabBarOptions={{
-          activeTintColor: "#2e64e5",
-        }}
-      >
-        {+userdata.tier == 1 || +userdata.tier >= 2 ? (
+          activeTintColor: '#2e64e5',
+        }}>
+
+        {+userdata.tier == 1 || +userdata.tier == 2 ?
           <Tab.Screen
             name="Articles"
             component={ArticlesScreen}
+
             options={{
-              tabBarLabel: "Articles",
+              tabBarLabel: 'Articles',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
                   name="file-multiple-outline"
@@ -306,14 +397,17 @@ const FeedStack = ({ isaccesstokenset, ...rest }) => {
               ),
             }}
           />
-        ) : null}
 
-        {+userdata.tier == 1 || +userdata.tier >= 2 ? (
+          : null}
+
+        {+userdata.tier == 1 || +userdata.tier == 2 ?
+
           <Tab.Screen
             name="Videos"
             component={VideosScreen}
+
             options={{
-              tabBarLabel: "Videos",
+              tabBarLabel: 'Videos',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
                   name="video-outline"
@@ -323,14 +417,15 @@ const FeedStack = ({ isaccesstokenset, ...rest }) => {
               ),
             }}
           />
-        ) : null}
+          : null}
 
-        {+userdata.tier >= 2 ? (
+        {+userdata.tier == 1 || +userdata.tier == 3 ?
           <Tab.Screen
             name="Tools"
             component={ToolsScreen}
+
             options={{
-              tabBarLabel: "Tools",
+              tabBarLabel: 'Tools',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
                   name="wrench-outline"
@@ -340,14 +435,18 @@ const FeedStack = ({ isaccesstokenset, ...rest }) => {
               ),
             }}
           />
-        ) : null}
+          : null}
         <Tab.Screen
           name="Explore"
           component={ExploreScreen}
           options={{
             // tabBarLabel: 'Home',
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="grid-outline" color={color} size={size} />
+              <Ionicons
+                name="grid-outline"
+                color={color}
+                size={size}
+              />
             ),
           }}
         />
@@ -364,8 +463,7 @@ const FeedStack = ({ isaccesstokenset, ...rest }) => {
             />
           ),
         }}
-      /> */}
-        {/*
+      />
       <Tab.Screen
         name="Contribute"
         component={ContributeScreen}
@@ -384,27 +482,17 @@ const FeedStack = ({ isaccesstokenset, ...rest }) => {
           name="Profile"
           component={ProfileScreen}
           options={{
-            tabBarLabel: "User Profile",
+            tabBarLabel: 'User Profile',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person-outline" color={color} size={size} />
             ),
           }}
         />
 
-        <Tab.Screen
-          name="Payment"
-          component={PaymentScreen}
-          options={{
-            tabBarLabel: "Payment",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="card" color={color} size={size} />
-              
-            ),
-          }}
-        />
+
       </Tab.Navigator>
     </>
   );
-};
+}
 
 export default AppStack;
